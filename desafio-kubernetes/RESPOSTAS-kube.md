@@ -5,6 +5,26 @@
 
 2 - crie o manifesto de um recurso que seja executado em todos os nós do cluster com a imagem nginx:latest com nome meu-spread, nao sobreponha ou remova qualquer taint de qualquer um dos nós.
 
+    - As the way to do it would be the same for nginx, I'll leave the model below for future use.
+      If you wanted to do it specifically with Nginx, just replace the values based on the template below    
+      https://learn.microsoft.com/pt-br/azure/aks/hybrid/create-daemonsets
+    
+        apiVersion: apps/v1  
+        kind: DaemonSet  
+        metadata: 
+          labels: 
+            app: nginx
+          name: example-daemon
+          spec:  
+            template:
+              metadata:
+              labels:
+                app: nginx
+              spec:  
+                containers:  
+                - name: nginx  
+                  image: nginx                  
+
     A DaemonSet ensures that all (or some) Nodes run a copy of a Pod. As nodes are added to the cluster,
     Pods are added to them. As nodes are removed from the cluster, those Pods are garbage collected.
     Deleting a DaemonSet will clean up the Pods it created. A DaemonSet ensures that all eligible nodes
