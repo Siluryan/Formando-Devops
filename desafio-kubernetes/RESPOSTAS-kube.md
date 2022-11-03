@@ -1,10 +1,11 @@
 1 - com uma unica linha de comando capture somente linhas que contenham "erro" do log do pod serverweb no namespace meusite que tenha a label app: ovo.
 
     kubectl logs serverweb -n meusite -l app=ovo | grep erro
-    
+
+``` 
     ref:
     https://kubernetes.io/docs/reference/kubectl/cheatsheet/
-
+``` 
 
 2 - crie o manifesto de um recurso que seja executado em todos os nós do cluster com a imagem nginx:latest com nome meu-spread, nao sobreponha ou remova qualquer taint de qualquer um dos nós.
 
@@ -118,9 +119,11 @@
             hostPath:
               path: /var/log
 ```
+``` 
         ref:
         https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/
         https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/
+``` 
               
 3 - crie um deploy meu-webserver com a imagem nginx:latest e um initContainer com a imagem alpine. O initContainer deve criar um arquivo /app/index.html, tenha o conteudo "HelloGetup" e compartilhe com o container de nginx que só poderá ser inicializado se o arquivo foi criado.
 
@@ -184,10 +187,12 @@
 
             "HelloGetup"
             
+```         
         ref:
         https://kubernetes.io/docs/tasks/access-application-cluster/communicate-containers-same-pod-shared-volume/
         https://kubernetes.io/docs/concepts/storage/volumes/
         https://kubernetes.io/docs/concepts/storage/ephemeral-volumes/
         https://kubernetes.io/docs/tasks/configure-pod-container/configure-volume-storage/
         https://kubernetes.io/docs/concepts/workloads/pods/init-containers/
-        https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-initialization/        
+        https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-initialization/
+``` 
