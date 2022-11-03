@@ -156,14 +156,14 @@
 
         In your shell, verify that nginx is running:
 
-            - apt-get update
-            - apt-get install curl procps
-            - ps aux
+            apt-get update
+            apt-get install curl procps
+            ps aux
 
         If nginx is running:   
 
-            - curl localhost
+            curl localhost
 
         The output shows that nginx serves a web page written by the initContainer:
 
-            HelloGetup
+            "HelloGetup"
