@@ -3,7 +3,7 @@
     kubectl logs serverweb -n meusite -l app=ovo | grep erro
 
 ``` 
-    ref:
+    Ref:
     https://kubernetes.io/docs/reference/kubectl/cheatsheet/
 ``` 
 
@@ -12,11 +12,13 @@
     As the way to do it would be the same for nginx, I'll leave the model below for future use.
     If you want to do it specifically with nginx, as well to follow the exercise requirements,
     just replace the values based on the template below.
-    
-    ref:
+
+```     
+    Ref:
     https://learn.microsoft.com/pt-br/azure/aks/hybrid/create-daemonsets
     
     *tuned for use
+``` 
     
 ```yaml
     apiVersion: apps/v1  
@@ -120,7 +122,7 @@
               path: /var/log
 ```
 ``` 
-        ref:
+        Ref:
         https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/
         https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/
 ``` 
@@ -188,7 +190,7 @@
             "HelloGetup"
             
 ```         
-        ref:
+        Ref:
         https://kubernetes.io/docs/tasks/access-application-cluster/communicate-containers-same-pod-shared-volume/
         https://kubernetes.io/docs/concepts/storage/volumes/
         https://kubernetes.io/docs/concepts/storage/ephemeral-volumes/
