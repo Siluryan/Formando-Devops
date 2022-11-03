@@ -5,9 +5,9 @@
 
 2 - crie o manifesto de um recurso que seja executado em todos os nós do cluster com a imagem nginx:latest com nome meu-spread, nao sobreponha ou remova qualquer taint de qualquer um dos nós.
 
-    - As the way to do it would be the same for nginx, I'll leave the model below for future use.
-      If you wanted to do it specifically with Nginx, just replace the values based on the template below    
-      https://learn.microsoft.com/pt-br/azure/aks/hybrid/create-daemonsets *tuned for use
+    As the way to do it would be the same for nginx, I'll leave the model below for future use.
+    If you wanted to do it specifically with Nginx, just replace the values based on the template below    
+    https://learn.microsoft.com/pt-br/azure/aks/hybrid/create-daemonsets *tuned for use
     
         apiVersion: apps/v1  
         kind: DaemonSet  
@@ -36,10 +36,12 @@
     That introduces the following issues:
 
     - Inconsistent Pod behavior:
+    
       Normal Pods waiting to be scheduled are created and in Pending state, but DaemonSet pods are not created
       in Pending state.
 
     - Pod preemption is handled by default scheduler:
+    
       When preemption is enabled, the DaemonSet controller will make scheduling decisions without considering
       pod priority and preemption.
 
@@ -49,7 +51,6 @@
     already exists, it is replaced (the original node affinity was taken into account before selecting the target host).
     The DaemonSet controller only performs these operations when creating or modifying DaemonSet pods,
     and no changes are made to the spec.template of the DaemonSet.
-
 
     apiVersion: apps/v1
     kind: DaemonSet
