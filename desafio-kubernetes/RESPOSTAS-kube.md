@@ -177,17 +177,17 @@ spec:
           mountPath: /app
 ```
    
-        Get a shell to "meu-webserver" deployment:
-        
-            kubectl exec -it deploy/meu-webserver -- /bin/bash
-           
-        In your shell try this command:
-        
-            curl localhost
+    Get a shell to "meu-webserver" deployment:
 
-        The output shows that nginx serves a web page written by the initContainer:
+        kubectl exec -it deploy/meu-webserver -- /bin/bash
 
-            "HelloGetup"
+    In your shell try this command:
+
+        curl localhost
+
+    The output shows that nginx serves a web page written by the initContainer:
+
+        "HelloGetup"
             
 ```         
 Ref:
