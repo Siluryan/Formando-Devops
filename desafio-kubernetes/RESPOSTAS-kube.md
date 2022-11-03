@@ -5,21 +5,25 @@
 
 2 - crie o manifesto de um recurso que seja executado em todos os nós do cluster com a imagem nginx:latest com nome meu-spread, nao sobreponha ou remova qualquer taint de qualquer um dos nós.
 
-    A DaemonSet ensures that all (or some) Nodes run a copy of a Pod. As nodes are added to the cluster, Pods are added to them.
-    As nodes are removed from the cluster, those Pods are garbage collected. Deleting a DaemonSet will clean up the Pods it created.
-    A DaemonSet ensures that all eligible nodes run a copy of a Pod. Normally, the node that a Pod runs on is selected by the Kubernetes scheduler.
-    However, DaemonSet pods are created and scheduled by the DaemonSet controller instead. That introduces the following issues:
+    A DaemonSet ensures that all (or some) Nodes run a copy of a Pod. As nodes are added to the cluster,
+    Pods are added to them. As nodes are removed from the cluster, those Pods are garbage collected.
+    Deleting a DaemonSet will clean up the Pods it created. A DaemonSet ensures that all eligible nodes
+    run a copy of a Pod. Normally, the node that a Pod runs on is selected by the Kubernetes scheduler.
+    However, DaemonSet pods are created and scheduled by the DaemonSet controller instead.
+    That introduces the following issues:
 
     - Inconsistent Pod behavior:
-      Normal Pods waiting to be scheduled are created and in Pending state, but DaemonSet pods are not created in Pending state.
+      Normal Pods waiting to be scheduled are created and in Pending state, but DaemonSet pods are not created
+      in Pending state.
 
     - Pod preemption is handled by default scheduler:
-      When preemption is enabled, the DaemonSet controller will make scheduling decisions without considering pod priority and preemption.
+      When preemption is enabled, the DaemonSet controller will make scheduling decisions without considering
+      pod priority and preemption.
 
-    ScheduleDaemonSetPods allows you to schedule DaemonSets using the default scheduler instead of the DaemonSet controller,
-    by adding the NodeAffinity term to the DaemonSet pods, instead of the .spec.nodeName term.
-    The default scheduler is then used to bind the pod to the target host. If node affinity of the DaemonSet pod already exists,
-    it is replaced (the original node affinity was taken into account before selecting the target host).
+    ScheduleDaemonSetPods allows you to schedule DaemonSets using the default scheduler instead of the DaemonSet
+    controller, by adding the NodeAffinity term to the DaemonSet pods, instead of the .spec.nodeName term.
+    The default scheduler is then used to bind the pod to the target host. If node affinity of the DaemonSet pod
+    already exists, it is replaced (the original node affinity was taken into account before selecting the target host).
     The DaemonSet controller only performs these operations when creating or modifying DaemonSet pods,
     and no changes are made to the spec.template of the DaemonSet.
 
