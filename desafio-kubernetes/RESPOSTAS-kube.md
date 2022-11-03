@@ -147,18 +147,12 @@
                     - name: shared-data
                       mountPath: "/app"   
    
-        Get a shell to nginx Container:
-
+        Get a shell to deploy meu-webserver:
+        
             kubectl exec -it deploy/meu-webserver -- /bin/bash
-
-        In your shell, verify that nginx is running:
-
-            apt-get update
-            apt-get install curl procps
-            ps aux
-
-        If nginx is running:   
-
+           
+        In your shell try this command:
+        
             curl localhost
 
         The output shows that nginx serves a web page written by the initContainer:
