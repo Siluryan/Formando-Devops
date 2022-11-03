@@ -114,6 +114,13 @@
         Each init container must exit successfully before the next container starts.
         If a container fails to start due to the runtime or exits with failure, it is retried according to the Pod restartPolicy.
         However, if the Pod restartPolicy is set to Always, the init containers use restartPolicy OnFailure.
+        
+        An emptyDir volume is first created when a Pod is assigned to a node, and exists as long as that Pod is running
+        on that node. As the name says, the emptyDir volume is initially empty. All containers in the Pod can read and write
+        the same files in the emptyDir volume, though that volume can be mounted at the same or different paths in each container.
+        When a Pod is removed from a node for any reason, the data in the emptyDir is deleted permanently.
+
+        Note: A container crashing does not remove a Pod from a node. The data in an emptyDir volume is safe across container crashes.
    
             apiVersion: apps/v1
             kind: Deployment
