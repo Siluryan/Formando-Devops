@@ -3,8 +3,8 @@
     kubectl logs serverweb -n meusite -l app=ovo | grep erro
 
 ``` 
-    Ref:
-    https://kubernetes.io/docs/reference/kubectl/cheatsheet/
+Ref:
+https://kubernetes.io/docs/reference/kubectl/cheatsheet/
 ``` 
 
 2 - crie o manifesto de um recurso que seja executado em todos os nós do cluster com a imagem nginx:latest com nome meu-spread, nao sobreponha ou remova qualquer taint de qualquer um dos nós.
@@ -14,31 +14,31 @@
     just replace the values based on the template below.
 
 ```     
-    Ref:
-    https://learn.microsoft.com/pt-br/azure/aks/hybrid/create-daemonsets
+Ref:
+https://learn.microsoft.com/pt-br/azure/aks/hybrid/create-daemonsets
     
     *tuned for use
 ``` 
     
 ```yaml
-    apiVersion: apps/v1  
-    kind: DaemonSet  
-    metadata: 
-      name: nginx 
-      labels: 
+apiVersion: apps/v1  
+kind: DaemonSet  
+metadata: 
+  name: nginx 
+  labels: 
+    app: nginx
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
         app: nginx
-    spec:
-      selector:
-        matchLabels:
-          app: nginx
-      template:
-        metadata:
-          labels:
-            app: nginx
-        spec:  
-          containers:  
-          - name: nginx  
-            image: nginx
+    spec:  
+      containers:  
+      - name: nginx  
+        image: nginx
 ```
 
     A DaemonSet ensures that all (or some) Nodes run a copy of a Pod. As nodes are added to the cluster,
@@ -68,63 +68,63 @@
     Daemon Pods respect taints and tolerations.
 
 ```yaml    
-    apiVersion: apps/v1
-    kind: DaemonSet
-    metadata:
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: fluentd-elasticsearch
+  namespace: kube-system
+  labels:
+    k8s-app: fluentd-logging
+spec:
+  selector:
+    matchLabels:
       name: fluentd-elasticsearch
-      namespace: kube-system
+  template:
+    metadata:
       labels:
-        k8s-app: fluentd-logging
+        name: fluentd-elasticsearch
     spec:
-      selector:
-        matchLabels:
-          name: fluentd-elasticsearch
-      template:
-        metadata:
-          labels:
-            name: fluentd-elasticsearch
-        spec:
-          affinity:
-          # ScheduleDaemonSetPods
-            nodeAffinity:
-              requiredDuringSchedulingIgnoredDuringExecution:
-                nodeSelectorTerms:
-                - matchFields:
-                  - key: metadata.name
-                    operator: In
-                    values:
-                      - target-host-name
-          tolerations:
-          # these tolerations are to have the daemonset runnable on control plane nodes
-          # remove them if your control plane nodes should not run pods
-          - key: node-role.kubernetes.io/control-plane
-            operator: Exists
-            effect: NoSchedule
-          - key: node-role.kubernetes.io/master
-            operator: Exists
-            effect: NoSchedule
-          containers:
-          - name: fluentd-elasticsearch
-            image: quay.io/fluentd_elasticsearch/fluentd:v2.5.2
-            resources:
-              limits:
-                memory: 200Mi
-              requests:
-                cpu: 100m
-                memory: 200Mi
-            volumeMounts:
-            - name: varlog
-              mountPath: /var/log
-          terminationGracePeriodSeconds: 30
-          volumes:
-          - name: varlog
-            hostPath:
-              path: /var/log
+      affinity:
+      # ScheduleDaemonSetPods
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchFields:
+              - key: metadata.name
+                operator: In
+                values:
+                  - target-host-name
+      tolerations:
+      # these tolerations are to have the daemonset runnable on control plane nodes
+      # remove them if your control plane nodes should not run pods
+      - key: node-role.kubernetes.io/control-plane
+        operator: Exists
+        effect: NoSchedule
+      - key: node-role.kubernetes.io/master
+        operator: Exists
+        effect: NoSchedule
+      containers:
+      - name: fluentd-elasticsearch
+        image: quay.io/fluentd_elasticsearch/fluentd:v2.5.2
+        resources:
+          limits:
+            memory: 200Mi
+          requests:
+            cpu: 100m
+            memory: 200Mi
+        volumeMounts:
+        - name: varlog
+          mountPath: /var/log
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: varlog
+        hostPath:
+          path: /var/log
 ```
 ``` 
-        Ref:
-        https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/
-        https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/
+Ref:
+https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/
+https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/
 ``` 
               
 3 - crie um deploy meu-webserver com a imagem nginx:latest e um initContainer com a imagem alpine. O initContainer deve criar um arquivo /app/index.html, tenha o conteudo "HelloGetup" e compartilhe com o container de nginx que só poderá ser inicializado se o arquivo foi criado.
@@ -144,37 +144,37 @@
         container crashes.
    
 ```yaml
-    apiVersion: apps/v1
-    kind: Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: meu-webserver
+spec:
+  selector:
+    matchLabels:
+      app: meu-webserver
+  template:
     metadata:
-      name: meu-webserver
-    spec:
-      selector:
-        matchLabels:
-          app: meu-webserver
-      template:
-        metadata:
-          labels:
-            app: meu-webserver
-        spec:                        
-          volumes:
-          - name: shared-data
-            emptyDir: {}
-          containers:
-          - name: nginx
-            image: nginx:latest
-            ports:
-              - containerPort: 80
-            volumeMounts:
-            - name: shared-data
-              mountPath: /usr/share/nginx/html            
-          initContainers:
-          - name: init-myservice
-            image: alpine 
-            command: ['sh', '-c', 'echo HelloGetup > /app/index.html']
-            volumeMounts:
-            - name: shared-data
-              mountPath: /app
+      labels:
+        app: meu-webserver
+    spec:                        
+      volumes:
+      - name: shared-data
+        emptyDir: {}
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+          - containerPort: 80
+        volumeMounts:
+        - name: shared-data
+          mountPath: /usr/share/nginx/html            
+      initContainers:
+      - name: init-myservice
+        image: alpine 
+        command: ['sh', '-c', 'echo HelloGetup > /app/index.html']
+        volumeMounts:
+        - name: shared-data
+          mountPath: /app
 ```
    
         Get a shell to "meu-webserver" deployment:
@@ -190,11 +190,11 @@
             "HelloGetup"
             
 ```         
-        Ref:
-        https://kubernetes.io/docs/tasks/access-application-cluster/communicate-containers-same-pod-shared-volume/
-        https://kubernetes.io/docs/concepts/storage/volumes/
-        https://kubernetes.io/docs/concepts/storage/ephemeral-volumes/
-        https://kubernetes.io/docs/tasks/configure-pod-container/configure-volume-storage/
-        https://kubernetes.io/docs/concepts/workloads/pods/init-containers/
-        https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-initialization/
+Ref:
+https://kubernetes.io/docs/tasks/access-application-cluster/communicate-containers-same-pod-shared-volume/
+https://kubernetes.io/docs/concepts/storage/volumes/
+https://kubernetes.io/docs/concepts/storage/ephemeral-volumes/
+https://kubernetes.io/docs/tasks/configure-pod-container/configure-volume-storage/
+https://kubernetes.io/docs/concepts/workloads/pods/init-containers/
+https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-initialization/
 ``` 
