@@ -152,7 +152,7 @@
    
         Get a shell to nginx Container:
 
-           - kubectl exec -it meu-webserver -c nginx -- /bin/bash
+            kubectl exec -it meu-webserver -c nginx -- /bin/bash
 
         In your shell, verify that nginx is running:
 
@@ -166,4 +166,4 @@
 
         The output shows that nginx serves a web page written by the initContainer:
 
-            "HelloGetup"
+            'HelloGetup'
