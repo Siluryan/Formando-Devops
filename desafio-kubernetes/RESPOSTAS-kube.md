@@ -7,7 +7,7 @@
 
     - As the way to do it would be the same for nginx, I'll leave the model below for future use.
       If you wanted to do it specifically with Nginx, just replace the values based on the template below    
-      https://learn.microsoft.com/pt-br/azure/aks/hybrid/create-daemonsets *adaptado
+      https://learn.microsoft.com/pt-br/azure/aks/hybrid/create-daemonsets *tuned for use
     
         apiVersion: apps/v1  
         kind: DaemonSet  
