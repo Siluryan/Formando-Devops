@@ -145,7 +145,7 @@
                     command: ['sh', '-c', 'echo HelloGetup > /app/index.html']
                     volumeMounts:
                     - name: shared-data
-                      mountPath: "/app"   
+                      mountPath: /app   
    
         Get a shell to "meu-webserver" deployment:
         
