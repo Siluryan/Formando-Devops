@@ -106,3 +106,59 @@
           - name: varlog
             hostPath:
               path: /var/log
+              
+3 - crie um deploy meu-webserver com a imagem nginx:latest e um initContainer com a imagem alpine. O initContainer deve criar um arquivo /app/index.html, tenha o conteudo "HelloGetup" e compartilhe com o container de nginx que só poderá ser inicializado se o arquivo foi criado.   
+   
+        apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          name: meu-webserver
+          labels:
+            app: nginx
+        spec:
+          restartPolicy: Never
+          volumes:
+          - name: shared-data
+            emptyDir: {}
+          replicas: 3
+          selector:
+            matchLabels:
+              app: nginx
+          template:
+            metadata:
+              labels:
+                app: nginx
+            spec:
+              containers:
+                - name: nginx
+                  image: nginx:latest
+                  ports:
+                    - containerPort: 80
+                  volumeMounts:
+                  - name: shared-data
+                    mountPath: /usr/share/nginx/html            
+              initContainers:
+                - name: init-myservice
+                  image: alpine
+                  volumeMounts:
+                  - name: shared-data
+                    mountPath: /app
+                  command: ['sh', '-c', 'echo HelloGetup > /app/index.html']   
+   
+        Get a shell to nginx Container:
+
+        kubectl exec -it two-containers -c nginx-container -- /bin/bash
+
+        In your shell, verify that nginx is running:
+
+            apt-get update
+            apt-get install curl procps
+            ps aux
+
+        If nginx is running:   
+
+            curl localhost
+
+        The output shows that nginx serves a web page written by the initContainer:
+
+            HelloGetup
