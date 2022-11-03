@@ -6,7 +6,7 @@
 2 - crie o manifesto de um recurso que seja executado em todos os nós do cluster com a imagem nginx:latest com nome meu-spread, nao sobreponha ou remova qualquer taint de qualquer um dos nós.
 
     As the way to do it would be the same for nginx, I'll leave the model below for future use.
-    If you wanted to do it specifically with Nginx, just replace the values based on the template below    
+    If you wanted to do it specifically with nginx, just replace the values based on the template below    
     https://learn.microsoft.com/pt-br/azure/aks/hybrid/create-daemonsets *tuned for use
     
         apiVersion: apps/v1  
