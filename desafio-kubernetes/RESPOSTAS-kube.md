@@ -107,7 +107,10 @@
             hostPath:
               path: /var/log
               
-3 - crie um deploy meu-webserver com a imagem nginx:latest e um initContainer com a imagem alpine. O initContainer deve criar um arquivo /app/index.html, tenha o conteudo "HelloGetup" e compartilhe com o container de nginx que só poderá ser inicializado se o arquivo foi criado.   
+3 - crie um deploy meu-webserver com a imagem nginx:latest e um initContainer com a imagem alpine. O initContainer deve criar um arquivo /app/index.html, tenha o conteudo "HelloGetup" e compartilhe com o container de nginx que só poderá ser inicializado se o arquivo foi criado.
+
+        During Pod startup, the kubelet delays running init containers until the networking and storage are ready. Then the kubelet runs the Pod's init containers in the order they appear in the Pod's spec.
+        Each init container must exit successfully before the next container starts. If a container fails to start due to the runtime or exits with failure, it is retried according to the Pod restartPolicy. However, if the Pod restartPolicy is set to Always, the init containers use restartPolicy OnFailure.
    
         apiVersion: apps/v1
         kind: Deployment
@@ -147,7 +150,7 @@
    
         Get a shell to nginx Container:
 
-        kubectl exec -it two-containers -c nginx-container -- /bin/bash
+            kubectl exec -it two-containers -c nginx-container -- /bin/bash
 
         In your shell, verify that nginx is running:
 
