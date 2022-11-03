@@ -147,7 +147,7 @@
                     - name: shared-data
                       mountPath: "/app"   
    
-        Get a shell to deploy meu-webserver:
+        Get a shell to "meu-webserver" deployment:
         
             kubectl exec -it deploy/meu-webserver -- /bin/bash
            
@@ -157,4 +157,4 @@
 
         The output shows that nginx serves a web page written by the initContainer:
 
-            'HelloGetup'
+            "HelloGetup"
