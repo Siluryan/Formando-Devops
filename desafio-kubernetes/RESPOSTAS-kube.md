@@ -7,23 +7,26 @@
 
     - As the way to do it would be the same for nginx, I'll leave the model below for future use.
       If you wanted to do it specifically with Nginx, just replace the values based on the template below    
-      https://learn.microsoft.com/pt-br/azure/aks/hybrid/create-daemonsets
+      https://learn.microsoft.com/pt-br/azure/aks/hybrid/create-daemonsets *adaptado
     
         apiVersion: apps/v1  
         kind: DaemonSet  
         metadata: 
+          name: nginx 
           labels: 
             app: nginx
-          name: example-daemon
-          spec:  
-            template:
-              metadata:
+        spec:
+          selector:
+            matchLabels:
+              app: nginx
+          template:
+            metadata:
               labels:
                 app: nginx
-              spec:  
-                containers:  
-                - name: nginx  
-                  image: nginx                  
+            spec:  
+              containers:  
+              - name: nginx  
+                image: nginx                  
 
     A DaemonSet ensures that all (or some) Nodes run a copy of a Pod. As nodes are added to the cluster,
     Pods are added to them. As nodes are removed from the cluster, those Pods are garbage collected.
