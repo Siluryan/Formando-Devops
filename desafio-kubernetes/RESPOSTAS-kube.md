@@ -9,6 +9,8 @@
     If you wanted to do it specifically with nginx, just replace the values based on the template below    
     https://learn.microsoft.com/pt-br/azure/aks/hybrid/create-daemonsets *tuned for use
     
+    
+    ```yaml
         apiVersion: apps/v1  
         kind: DaemonSet  
         metadata: 
@@ -26,7 +28,8 @@
             spec:  
               containers:  
               - name: nginx  
-                image: nginx                  
+                image: nginx
+    ```
 
     A DaemonSet ensures that all (or some) Nodes run a copy of a Pod. As nodes are added to the cluster,
     Pods are added to them. As nodes are removed from the cluster, those Pods are garbage collected.
@@ -54,6 +57,7 @@
     
     Daemon Pods respect taints and tolerations.
 
+    ```yaml    
     apiVersion: apps/v1
     kind: DaemonSet
     metadata:
@@ -106,6 +110,7 @@
           - name: varlog
             hostPath:
               path: /var/log
+    ```
               
 3 - crie um deploy meu-webserver com a imagem nginx:latest e um initContainer com a imagem alpine. O initContainer deve criar um arquivo /app/index.html, tenha o conteudo "HelloGetup" e compartilhe com o container de nginx que só poderá ser inicializado se o arquivo foi criado.
 
@@ -122,6 +127,7 @@
 
         Note: A container crashing does not remove a Pod from a node. The data in an emptyDir volume is safe across container crashes.
    
+            ```yaml
             apiVersion: apps/v1
             kind: Deployment
             metadata:
@@ -152,7 +158,9 @@
                     command: ['sh', '-c', 'echo HelloGetup > /app/index.html']
                     volumeMounts:
                     - name: shared-data
-                      mountPath: /app   
+                      mountPath: /app
+                      
+            ```
    
         Get a shell to "meu-webserver" deployment:
         
