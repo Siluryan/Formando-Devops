@@ -51,6 +51,8 @@
     already exists, it is replaced (the original node affinity was taken into account before selecting the target host).
     The DaemonSet controller only performs these operations when creating or modifying DaemonSet pods,
     and no changes are made to the spec.template of the DaemonSet.
+    
+    Daemon Pods respect taints and tolerations.
 
     apiVersion: apps/v1
     kind: DaemonSet
