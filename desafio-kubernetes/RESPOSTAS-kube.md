@@ -15,24 +15,24 @@
     *tuned for use
     
 ```yaml
-        apiVersion: apps/v1  
-        kind: DaemonSet  
-        metadata: 
-          name: nginx 
-          labels: 
+    apiVersion: apps/v1  
+    kind: DaemonSet  
+    metadata: 
+      name: nginx 
+      labels: 
+        app: nginx
+    spec:
+      selector:
+        matchLabels:
+          app: nginx
+      template:
+        metadata:
+          labels:
             app: nginx
-        spec:
-          selector:
-            matchLabels:
-              app: nginx
-          template:
-            metadata:
-              labels:
-                app: nginx
-            spec:  
-              containers:  
-              - name: nginx  
-                image: nginx
+        spec:  
+          containers:  
+          - name: nginx  
+            image: nginx
 ```
 
     A DaemonSet ensures that all (or some) Nodes run a copy of a Pod. As nodes are added to the cluster,
@@ -132,38 +132,37 @@
         Note: A container crashing does not remove a Pod from a node. The data in an emptyDir volume is safe across container crashes.
    
 ```yaml
-            apiVersion: apps/v1
-            kind: Deployment
-            metadata:
-              name: meu-webserver
-            spec:
-              selector:
-                matchLabels:
-                  app: meu-webserver
-              template:
-                metadata:
-                  labels:
-                    app: meu-webserver
-                spec:                        
-                  volumes:
-                  - name: shared-data
-                    emptyDir: {}
-                  containers:
-                  - name: nginx
-                    image: nginx:latest
-                    ports:
-                      - containerPort: 80
-                    volumeMounts:
-                    - name: shared-data
-                      mountPath: /usr/share/nginx/html            
-                  initContainers:
-                  - name: init-myservice
-                    image: alpine 
-                    command: ['sh', '-c', 'echo HelloGetup > /app/index.html']
-                    volumeMounts:
-                    - name: shared-data
-                      mountPath: /app
-                      
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: meu-webserver
+    spec:
+      selector:
+        matchLabels:
+          app: meu-webserver
+      template:
+        metadata:
+          labels:
+            app: meu-webserver
+        spec:                        
+          volumes:
+          - name: shared-data
+            emptyDir: {}
+          containers:
+          - name: nginx
+            image: nginx:latest
+            ports:
+              - containerPort: 80
+            volumeMounts:
+            - name: shared-data
+              mountPath: /usr/share/nginx/html            
+          initContainers:
+          - name: init-myservice
+            image: alpine 
+            command: ['sh', '-c', 'echo HelloGetup > /app/index.html']
+            volumeMounts:
+            - name: shared-data
+              mountPath: /app
 ```
    
         Get a shell to "meu-webserver" deployment:
