@@ -152,7 +152,7 @@
    
         Get a shell to nginx Container:
 
-            kubectl exec -it deploy/meu-webserver -c nginx -- /bin/bash
+            kubectl exec -it deploy/meu-webserver -- /bin/bash
 
         In your shell, verify that nginx is running:
 
