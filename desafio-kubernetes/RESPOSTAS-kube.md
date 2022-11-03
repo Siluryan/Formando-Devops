@@ -112,8 +112,8 @@
         During Pod startup, the kubelet delays running init containers until the networking and storage are ready.
         Then the kubelet runs the Pod's init containers in the order they appear in the Pod's spec.
         Each init container must exit successfully before the next container starts.
-        If a container fails to start due to the runtime or exits with failure, it is retried according to the Pod restartPolicy.
-        However, if the Pod restartPolicy is set to Always, the init containers use restartPolicy OnFailure.
+        If a container fails to start due to the runtime or exits with failure, it is retried according to the Pod
+        restartPolicy. However, if the Pod restartPolicy is set to Always, the init containers use restartPolicy OnFailure.
         
         An emptyDir volume is first created when a Pod is assigned to a node, and exists as long as that Pod is running
         on that node. As the name says, the emptyDir volume is initially empty. All containers in the Pod can read and write
