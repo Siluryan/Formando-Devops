@@ -115,40 +115,37 @@
         If a container fails to start due to the runtime or exits with failure, it is retried according to the Pod restartPolicy.
         However, if the Pod restartPolicy is set to Always, the init containers use restartPolicy OnFailure.
    
-        apiVersion: apps/v1
-        kind: Deployment
-        metadata:
-          name: meu-webserver
-          labels:
-            app: nginx
-        spec:
-          replicas: 3
-          selector:
-            matchLabels:
-              app: nginx
-          template:
+            apiVersion: apps/v1
+            kind: Deployment
             metadata:
-              labels:
-                app: nginx
-            spec:      
-              volumes:
-              - name: shared-data
-                emptyDir: {}
-              containers:
-              - name: nginx
-                image: nginx:latest
-                ports:
-                  - containerPort: 80
-                volumeMounts:
-                - name: shared-data
-                  mountPath: /usr/share/nginx/html            
-              initContainers:
-              - name: init-myservice
-                image: alpine
-                volumeMounts:
-                - name: shared-data
-                  mountPath: /app
-                command: ['sh', '-c', 'echo HelloGetup > /app/index.html']    
+              name: meu-webserver
+            spec:
+              selector:
+                matchLabels:
+                  app: meu-webserver
+              template:
+                metadata:
+                  labels:
+                    app: meu-webserver
+                spec:                        
+                  volumes:
+                  - name: shared-data
+                    emptyDir: {}
+                  containers:
+                  - name: nginx
+                    image: nginx:latest
+                    ports:
+                      - containerPort: 80
+                    volumeMounts:
+                    - name: shared-data
+                      mountPath: /usr/share/nginx/html            
+                  initContainers:
+                  - name: init-myservice
+                    image: alpine 
+                    command: ['sh', '-c', 'echo HelloGetup > /app/index.html']
+                    volumeMounts:
+                    - name: shared-data
+                      mountPath: "/app"   
    
         Get a shell to nginx Container:
 
