@@ -17,7 +17,7 @@ https://kubernetes.io/docs/reference/kubectl/cheatsheet/
 Ref:
 https://learn.microsoft.com/pt-br/azure/aks/hybrid/create-daemonsets
     
-    *tuned for use
+*tuned for use
 ``` 
     
 ```yaml
