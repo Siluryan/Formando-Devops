@@ -1,4 +1,4 @@
-Add podinfo repository to Flux
+# Add podinfo repository to Flux
 
 This example uses a public repository github.com/stefanprodan/podinfo, podinfo is a tiny web application made with Go.
 
@@ -26,9 +26,8 @@ Commit and push the podinfo-source.yaml file to the fleet-infra repository:
 git add -A && git commit -m "Add podinfo GitRepository"
 git push
 
-////////////////////////////////////////////////
+# Deploy podinfo application
 
-Deploy podinfo application
 Configure Flux to build and apply the kustomize directory located in the podinfo repository.
 
 Use the flux create command to create a Kustomization that applies the podinfo deployment.
@@ -61,28 +60,26 @@ git add -A && git commit -m "Add podinfo Kustomization"
 git push
 The structure of the fleet-infra repo should be similar to:
 
-fleet-infra
-└── clusters/
-    └── my-cluster/
-        ├── flux-system/                        
-        │   ├── gotk-components.yaml
-        │   ├── gotk-sync.yaml
-        │   └── kustomization.yaml
-        ├── podinfo-kustomization.yaml
-        └── podinfo-source.yaml
+```
+	fleet-infra
+	└── clusters/
+	    └── my-cluster/
+		├── flux-system/                        
+		│   ├── gotk-components.yaml
+		│   ├── gotk-sync.yaml
+		│   └── kustomization.yaml
+		├── podinfo-kustomization.yaml
+		└── podinfo-source.yaml
+```
 
-////////////////////////////////////////////
-
-Check podinfo has been deployed on your cluster:
+# Check podinfo has been deployed on your cluster:
 
 kubectl -n default get deployments,services
-
-/////////////////////////////////////////////
-
-kind create cluster --config  kind-1m2w-config.yaml 
-the kind-1m2w-config.yaml is like
-
+ 
 # three node (two workers) cluster config
+
+kind-1m2w-config.yaml:
+
 kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
 nodes:
@@ -90,7 +87,7 @@ nodes:
 - role: worker
 - role: worker
 
-flux bootstrap github --owner=$GITHUB_USER   --repository=fleet-infra   --branch=main --path=./clusters/kind-kind   --personal
+kind create cluster --config  kind-1m2w-config.yaml
 
 In kind, we can load images to nodes by kind load command. so I pull the images(all four images by four describe command to get image name) to local first
 
@@ -104,3 +101,5 @@ kind load docker-image "ghcr.io/fluxcd/helm-controller:v0.21.0"
 kind load docker-image "ghcr.io/fluxcd/kustomize-controller:v0.25.0"
 kind load docker-image "ghcr.io/fluxcd/notification-controller:v0.23.5"
 kind load docker-image "ghcr.io/fluxcd/source-controller:v0.24.4"
+
+flux bootstrap github --owner=$GITHUB_USER   --repository=fleet-infra   --branch=main --path=./clusters/kind-kind   --personal
