@@ -31,7 +31,7 @@ kind load docker-image "ghcr.io/fluxcd/notification-controller:v0.23.5"
 kind load docker-image "ghcr.io/fluxcd/source-controller:v0.24.4"
 ```
 
-	flux bootstrap github --owner=$GITHUB_USER   --repository=fleet-infra   --branch=main --path=./clusters/kind-kind   --personal
+	flux bootstrap gitlab --owner=<group> --repository=<repository name> --token-auth --repository=fleet-infra --branch=main --path=./clusters/kind-kind --personal
 
 # Add podinfo repository to Flux
 
@@ -126,4 +126,6 @@ The structure of the fleet-infra repo should be similar to:
 
 # Check podinfo has been deployed on your cluster
 
+```
 kubectl -n default get deployments,services
+```
