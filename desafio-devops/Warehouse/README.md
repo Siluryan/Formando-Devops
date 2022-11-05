@@ -72,11 +72,11 @@ The structure of the fleet-infra repo should be similar to:
 		└── podinfo-source.yaml
 ```
 
-# Check podinfo has been deployed on your cluster:
+# Check podinfo has been deployed on your cluster
 
 kubectl -n default get deployments,services
  
-# three node (two workers) cluster config
+# Three node (two workers) cluster config
 
 kind-1m2w-config.yaml:
 
