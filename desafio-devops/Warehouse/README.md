@@ -89,17 +89,22 @@ nodes:
 
 kind create cluster --config  kind-1m2w-config.yaml
 
-In kind, we can load images to nodes by kind load command. so I pull the images(all four images by four describe command to get image name) to local first
+In kind, we can load images to nodes by kind load command. so I pull the images(all four images by four describe command to get image name) to local first:
 
+```
 docker pull "ghcr.io/fluxcd/helm-controller:v0.21.0"
 docker pull "ghcr.io/fluxcd/kustomize-controller:v0.25.0"
 docker pull "ghcr.io/fluxcd/notification-controller:v0.23.5"
 docker pull "ghcr.io/fluxcd/source-controller:v0.24.4"
-and load them
 
+```
+and load them:
+
+```
 kind load docker-image "ghcr.io/fluxcd/helm-controller:v0.21.0"
 kind load docker-image "ghcr.io/fluxcd/kustomize-controller:v0.25.0"
 kind load docker-image "ghcr.io/fluxcd/notification-controller:v0.23.5"
 kind load docker-image "ghcr.io/fluxcd/source-controller:v0.24.4"
+```
 
 flux bootstrap github --owner=$GITHUB_USER   --repository=fleet-infra   --branch=main --path=./clusters/kind-kind   --personal

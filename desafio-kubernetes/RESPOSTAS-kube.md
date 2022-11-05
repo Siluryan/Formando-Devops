@@ -198,3 +198,34 @@ https://kubernetes.io/docs/tasks/configure-pod-container/configure-volume-storag
 https://kubernetes.io/docs/concepts/workloads/pods/init-containers/
 https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-initialization/
 ``` 
+
+4 - crie um deploy chamado meuweb com a imagem nginx:1.16 que seja executado exclusivamente no node master.
+
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+
+  replicas: 1 
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      nodeName: meuk8s-control-plane
+      containers:
+        - name: nginx
+          image: nginx:1.14.2
+          ports:
+            - containerPort: 80
+```
+
+
+
