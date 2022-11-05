@@ -6,12 +6,14 @@ Create the staging cluster using Kubernetes kind or set the kubectl context to a
 
 You can set these in the terminal that you are running your terraform command by exporting variables.
 
+```
 export TF_VAR_gitlab_owner=<owner>
 export TF_VAR_gitlab_token=<token>
+```
 
 By using the GitLab provider to create a repository you can commit the manifests given by the data sources flux_install and flux_sync. The cluster has been successfully provisioned after the same manifests are applied to it.
 
-# Flux configuration registry
+# Flux configuration registry (don´t use this notes)
 
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
