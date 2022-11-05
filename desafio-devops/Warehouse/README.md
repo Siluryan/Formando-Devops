@@ -13,7 +13,7 @@ nodes:
 
 	kind create cluster --config  kind-1m2w-config.yaml
 
-In kind, we can load images to nodes by kind load command. so I pull the images(all four images by four describe command to get image name) to local first:
+In kind, we can load images to nodes by kind load command: 
 
 ```
 docker pull "ghcr.io/fluxcd/helm-controller:v0.21.0"
@@ -73,7 +73,7 @@ git push
 
 Configure Flux to build and apply the kustomize directory located in the podinfo repository.
 
-Use the flux create command to create a Kustomization that applies the podinfo deployment.
+Use the flux create command to create a Kustomization that applies the podinfo deployment:
 
 ```
 flux create kustomization podinfo \
