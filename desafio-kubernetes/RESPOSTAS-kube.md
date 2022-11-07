@@ -225,7 +225,7 @@ https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-initializ
 
       kubectl label nodes <your-node-name> node=master (where <your-node-name> is the name of your chosen node)    
 
-    Verify that your chosen node has a disktype=ssd label:
+    Verify that your chosen node has a node=master label:
 
       kubectl get nodes --show-labels
 
