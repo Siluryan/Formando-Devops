@@ -1,4 +1,4 @@
-# 1 - com uma unica linha de comando capture somente linhas que contenham "erro" do log do pod serverweb no namespace meusite que tenha a label app: ovo.
+## 1 - com uma unica linha de comando capture somente linhas que contenham "erro" do log do pod serverweb no namespace meusite que tenha a label app: ovo.
 
     kubectl logs serverweb -n meusite -l app=ovo | grep erro
 
@@ -7,7 +7,7 @@ Ref:
 https://kubernetes.io/docs/reference/kubectl/cheatsheet/
 ``` 
 
-# 2 - crie o manifesto de um recurso que seja executado em todos os nós do cluster com a imagem nginx:latest com nome meu-spread, nao sobreponha ou remova qualquer taint de qualquer um dos nós.
+## 2 - crie o manifesto de um recurso que seja executado em todos os nós do cluster com a imagem nginx:latest com nome meu-spread, nao sobreponha ou remova qualquer taint de qualquer um dos nós.
 
     As the way to do it would be the same for nginx, I'll leave the model below for future use.
     If you want to do it specifically with nginx, as well to follow the exercise requirements,
@@ -127,7 +127,7 @@ https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/
 https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/
 ``` 
               
-# 3 - crie um deploy meu-webserver com a imagem nginx:latest e um initContainer com a imagem alpine. O initContainer deve criar um arquivo /app/index.html, tenha o conteudo "HelloGetup" e compartilhe com o container de nginx que só poderá ser inicializado se o arquivo foi criado.
+## 3 - crie um deploy meu-webserver com a imagem nginx:latest e um initContainer com a imagem alpine. O initContainer deve criar um arquivo /app/index.html, tenha o conteudo "HelloGetup" e compartilhe com o container de nginx que só poderá ser inicializado se o arquivo foi criado.
 
         During Pod startup, the kubelet delays running init containers until the networking and storage are ready.
         Then the kubelet runs the Pod's init containers in the order they appear in the Pod's spec.
@@ -199,7 +199,7 @@ https://kubernetes.io/docs/concepts/workloads/pods/init-containers/
 https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-initialization/
 ``` 
 
-# 4 - crie um deploy chamado meuweb com a imagem nginx:1.16 que seja executado exclusivamente no node master.
+## 4 - crie um deploy chamado meuweb com a imagem nginx:1.16 que seja executado exclusivamente no node master.
 
     NodeSelector is the simplest recommended form of node selection constraint.
     You can add the nodeSelector field to your Pod specification and specify the node labels
