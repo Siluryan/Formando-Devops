@@ -281,7 +281,7 @@ https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-initializ
           nodeSelector: node=master 
           containers:
             - name: nginx
-              image: nginx:1.14.2
+              image: nginx:1.16
               ports:
                 - containerPort: 80
   ```
