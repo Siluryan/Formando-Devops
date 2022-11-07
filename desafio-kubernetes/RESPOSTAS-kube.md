@@ -277,8 +277,9 @@ https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-initializ
           labels:
             app: nginx
         spec: 
-          # Coloque aqui a label que você aplicou ao node master (ex: node=master)
-          nodeSelector: node=master 
+          # Coloque aqui a label que você aplicou ao node master
+          nodeSelector:
+            node: master 
           containers:
             - name: nginx
               image: nginx:1.16
