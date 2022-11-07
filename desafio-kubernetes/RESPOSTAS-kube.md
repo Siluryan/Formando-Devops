@@ -267,7 +267,7 @@ Deployment example:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx-deployment
+  name: meuweb
   labels:
     app: nginx
 spec:
