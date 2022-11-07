@@ -244,50 +244,50 @@ https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-initializ
 
     This pod configuration file describes a pod that has a node selector, node: master.
     This means that the pod will get scheduled on a node that has a node=master label.
-    
-  ```
-  apiVersion: v1
-  kind: Pod
-  metadata:
-    name: nginx
-    labels:
-      env: test
-  spec:
-    containers:
-    - name: nginx
-      image: nginx
-      imagePullPolicy: IfNotPresent
-    nodeSelector:
-      node: master
 
-  Deployment example:
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+  labels:
+    env: test
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    imagePullPolicy: IfNotPresent
+  nodeSelector:
+    node: master
 
-  apiVersion: apps/v1
-  kind: Deployment
-  metadata:
-    name: nginx-deployment
-    labels:
+Deployment example:
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 1 
+  selector:
+    matchLabels:
       app: nginx
-  spec:
-    replicas: 1 
-    selector:
-      matchLabels:
+  template:
+    metadata:
+      labels:
         app: nginx
-    template:
-      metadata:
-        labels:
-          app: nginx
-      spec: 
-        # Coloque aqui a label que você aplicou ao node master
-        nodeSelector:
-          node: master 
-        containers:
-          - name: nginx
-            image: nginx:1.16
-            ports:
-              - containerPort: 80
-  ```
-  Ref:
-  https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes/
-  https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
-  ```
+    spec: 
+      # Coloque aqui a label que você aplicou ao node master
+      nodeSelector:
+        node: master 
+      containers:
+        - name: nginx
+          image: nginx:1.16
+          ports:
+            - containerPort: 80
+```
+    Ref:
+    https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes/
+    https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
+  
