@@ -246,6 +246,8 @@ https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-initializ
     This means that the pod will get scheduled on a node that has a node=master label.
 
 ```yaml
+Pod example:
+
 apiVersion: v1
 kind: Pod
 metadata:
