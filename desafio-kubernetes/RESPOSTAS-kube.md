@@ -280,6 +280,6 @@ https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-initializ
               ports:
                 - containerPort: 80
   
-  Ref:
-  https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes/
-  https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
+    Ref:
+    https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes/
+    https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
