@@ -207,9 +207,9 @@ https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-initializ
     each of the labels you specify.
   
   ```
-  Add a label to a node     
+  # Add a label to a node     
   ```
-  
+
     List the nodes in your cluster, along with their labels:
 
       kubectl get nodes --show-labels
@@ -239,12 +239,12 @@ https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-initializ
     In the preceding output, you can see that the worker0 node has a node=master label.
 
   ```
-  Create a pod that gets scheduled to your chose
+  # Create a pod that gets scheduled to your chose
   ```
 
-    This pod configuration file describes a pod that has a node selector, node: master. This means that the pod will get scheduled on a node that has a node=master label.
+    This pod configuration file describes a pod that has a node selector, node: master.
+    This means that the pod will get scheduled on a node that has a node=master label.
 
-    
     apiVersion: v1
     kind: Pod
     metadata:
