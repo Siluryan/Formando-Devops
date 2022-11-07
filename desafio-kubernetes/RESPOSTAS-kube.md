@@ -201,40 +201,45 @@ https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-initializ
 
 4 - crie um deploy chamado meuweb com a imagem nginx:1.16 que seja executado exclusivamente no node master.
 
-    NodeSelector is the simplest recommended form of node selection constraint. You can add the nodeSelector field to your Pod specification and specify the node labels you want the target node to have. Kubernetes only schedules the Pod onto nodes that have each of the labels you specify.
+    NodeSelector is the simplest recommended form of node selection constraint.
+    You can add the nodeSelector field to your Pod specification and specify the node labels
+    you want the target node to have. Kubernetes only schedules the Pod onto nodes that have
+    each of the labels you specify.
 
-    Add a label to a node 
+    # Add a label to a node     
     List the nodes in your cluster, along with their labels:
 
-    kubectl get nodes --show-labels
+      kubectl get nodes --show-labels
+
     The output is similar to this:
 
     NAME      STATUS    ROLES    AGE     VERSION        LABELS
     worker0   Ready     <none>   1d      v1.13.0        ...,kubernetes.io/hostname=worker0
     worker1   Ready     <none>   1d      v1.13.0        ...,kubernetes.io/hostname=worker1
     worker2   Ready     <none>   1d      v1.13.0        ...,kubernetes.io/hostname=worker2
+    
     Choose one of your nodes, and add a label to it:
 
-    kubectl label nodes <your-node-name> node=master
-    where <your-node-name> is the name of your chosen node.
+      kubectl label nodes <your-node-name> node=master (where <your-node-name> is the name of your chosen node)    
 
     Verify that your chosen node has a disktype=ssd label:
 
-    kubectl get nodes --show-labels
+      kubectl get nodes --show-labels
+
     The output is similar to this:
 
     NAME      STATUS    ROLES    AGE     VERSION        LABELS
     worker0   Ready     <none>   1d      v1.13.0        ...,node=master,kubernetes.io/hostname=worker0
     worker1   Ready     <none>   1d      v1.13.0        ...,kubernetes.io/hostname=worker1
     worker2   Ready     <none>   1d      v1.13.0        ...,kubernetes.io/hostname=worker2
+    
     In the preceding output, you can see that the worker0 node has a node=master label.
 
-    Create a pod that gets scheduled to your chose
+    # Create a pod that gets scheduled to your chose
 
     This pod configuration file describes a pod that has a node selector, node: master. This means that the pod will get scheduled on a node that has a node=master label.
 
-    ```
-    pods/pod-nginx.yaml Copy pods/pod-nginx.yaml to clipboard
+    ``` 
     apiVersion: v1
     kind: Pod
     metadata:
@@ -276,6 +281,6 @@ https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-initializ
                 - containerPort: 80
     ```
 
-Ref:
-https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes/
-https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
+  Ref:
+  https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes/
+  https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
