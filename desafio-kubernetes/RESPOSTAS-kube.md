@@ -245,7 +245,7 @@ https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-initializ
     This pod configuration file describes a pod that has a node selector, node: master.
     This means that the pod will get scheduled on a node that has a node=master label.
 
-```
+```yaml
 apiVersion: v1
 kind: Pod
 metadata:
