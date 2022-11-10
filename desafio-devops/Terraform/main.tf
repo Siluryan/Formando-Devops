@@ -16,7 +16,6 @@ data "flux_sync" "main" {
   branch      = var.branch
 }
 
-# Kubernetes
 resource "kubernetes_namespace" "flux_system" {
   metadata {
     name = "flux-system"
