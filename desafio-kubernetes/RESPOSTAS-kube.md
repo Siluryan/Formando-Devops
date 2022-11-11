@@ -280,7 +280,7 @@ spec:
       labels:
         app: nginx
     spec: 
-      # Coloque aqui a label que você aplicou ao node master
+      # Put here the label you applied to node master
       nodeSelector:
         node: master 
       containers:
@@ -295,7 +295,9 @@ spec:
 
 ### 5 - com uma unica linha de comando altere a imagem desse pod meuweb para nginx:1.19 e salve o comando aqui no repositorio.
 ```
-The following command specifies both the resource that will be affected and its respective container, so the key with the name nginx appears only by coincidence, and its real meaning is the name of the container in which you want to change the image.
+The following command specifies both the resource that will be affected and its respective container,
+so the key with the name nginx appears only by coincidence, and its real meaning is the name
+of the container in which you want to change the image.
 ```
 ```bash
   kubectl set image pod/meuweb2 nginx=nginx:1.19
