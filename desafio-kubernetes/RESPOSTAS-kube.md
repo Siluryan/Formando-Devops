@@ -300,7 +300,7 @@ so the key with the name nginx appears only by coincidence, and its real meaning
 of the container in which you want to change the image.
 ```
 ```bash
-  kubectl set image pod/meuweb2 nginx=nginx:1.19
+  kubectl set image pod/meuweb nginx=nginx:1.19
 ```
 ```
 Ref:
