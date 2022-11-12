@@ -2,10 +2,11 @@
 ```bash
   kubectl logs serverweb -n meusite -l app=ovo | grep erro
 ```
-``` 
+ 
 Ref:
+
 https://kubernetes.io/docs/reference/kubectl/cheatsheet/
-``` 
+
 
 ### 2 - crie o manifesto de um recurso que seja executado em todos os nós do cluster com a imagem nginx:latest com nome meu-spread, nao sobreponha ou remova qualquer taint de qualquer um dos nós.
 ```
@@ -13,12 +14,11 @@ As the way to do it would be the same for nginx, I'll leave the model below for 
 If you want to do it specifically with nginx, as well to follow the exercise requirements,
 just replace the values based on the template below.
 ```
-```     
-Ref:
-https://learn.microsoft.com/pt-br/azure/aks/hybrid/create-daemonsets
     
-*tuned for use
-``` 
+Ref:
+
+https://learn.microsoft.com/pt-br/azure/aks/hybrid/create-daemonsets  *tuned for use
+
     
 ```yaml
 apiVersion: apps/v1  
@@ -121,11 +121,13 @@ spec:
         hostPath:
           path: /var/log
 ```
-``` 
+
 Ref:
+
 https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/
+
 https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/
-``` 
+ 
               
 ### 3 - crie um deploy meu-webserver com a imagem nginx:latest e um initContainer com a imagem alpine. O initContainer deve criar um arquivo /app/index.html, tenha o conteudo "HelloGetup" e compartilhe com o container de nginx que só poderá ser inicializado se o arquivo foi criado.
 
@@ -189,16 +191,21 @@ spec:
     The output shows that nginx serves a web page written by the initContainer:
 
         "HelloGetup"
-            
-```         
+        
 Ref:
+
 https://kubernetes.io/docs/tasks/access-application-cluster/communicate-containers-same-pod-shared-volume/
+
 https://kubernetes.io/docs/concepts/storage/volumes/
+
 https://kubernetes.io/docs/concepts/storage/ephemeral-volumes/
+
 https://kubernetes.io/docs/tasks/configure-pod-container/configure-volume-storage/
+
 https://kubernetes.io/docs/concepts/workloads/pods/init-containers/
+
 https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-initialization/
-``` 
+
 
 ### 4 - crie um deploy chamado meuweb com a imagem nginx:1.16 que seja executado exclusivamente no node master.
 ```
@@ -289,9 +296,11 @@ spec:
           ports:
             - containerPort: 80
 ```
-    Ref:
-    https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes/
-    https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
+Ref:
+
+https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes/
+
+https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
 
 ### 5 - com uma unica linha de comando altere a imagem desse pod meuweb para nginx:1.19 e salve o comando aqui no repositorio.
 ```
@@ -302,10 +311,11 @@ of the container in which you want to change the image.
 ```bash
   kubectl set image pod/meuweb nginx=nginx:1.19
 ```
-```
+
 Ref:
+
 https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#-em-image-em-
-```
+
 
 ### 6 - quais linhas de comando para instalar o ingress-nginx controller usando helm, com os seguintes parametros;
 
@@ -357,7 +367,10 @@ helm install --generate-name ingress-nginx/ingress-nginx  \
 --set controller.service.type=NodePort \
 --set controller.updateStrategy.type=Recreate
 ```
-```
+Ref:
+
 https://kubernetes.github.io/ingress-nginx/
+
 https://helm.sh/docs/intro/using_helm/
+
 https://helm.sh/docs/helm/helm_install/
