@@ -1,6 +1,6 @@
 ### 1 - com uma unica linha de comando capture somente linhas que contenham "erro" do log do pod serverweb no namespace meusite que tenha a label app: ovo.
 ```bash
-kubectl logs serverweb -n meusite -l app=ovo | grep erro
+  kubectl logs serverweb -n meusite -l app=ovo | grep erro
 ```
 ``` 
 Ref:
@@ -307,6 +307,50 @@ Ref:
 https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#-em-image-em-
 ```
 
+### 6 - quais linhas de comando para instalar o ingress-nginx controller usando helm, com os seguintes parametros;
+
+```
+helm repository : https://kubernetes.github.io/ingress-nginx
+
+values do ingress-nginx : 
+controller:
+  hostPort:
+    enabled: true
+  service:
+    type: NodePort
+  updateStrategy:
+    type: Recreate
+```
+
+To install a new package, use the helm install command. At its simplest, it takes two arguments: A release name that you pick, and the name of the chart you want to install.
+
+Multiple values are separated by , characters. So --set a=b,c=d becomes:
+
+```
+a: b
+c: d
+```
+More complex expressions are supported. For example,
+--set outer.inner=value is translated into this:
+
+```
+outer:
+  inner: value
+```
 
 
-  
+```bash
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+ 
+helm repo update
+
+helm install [release_name] ingress-nginx/ingress-nginx --set controller.hostPort.enable=true,controller.service.type=NodePort,controller.updateStrategy.type=Recreate
+
+or... 
+
+helm install --generate-name ingress-nginx/ingress-nginx --set controller.hostPort.enable=true,controller.service.type=NodePort,controller.updateStrategy.type=Recreate
+```
+```
+https://kubernetes.github.io/ingress-nginx/
+https://helm.sh/docs/intro/using_helm/
+https://helm.sh/docs/helm/helm_install/
