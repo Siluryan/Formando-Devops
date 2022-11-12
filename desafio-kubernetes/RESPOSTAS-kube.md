@@ -349,6 +349,13 @@ helm install [release_name] ingress-nginx/ingress-nginx --set controller.hostPor
 or... 
 
 helm install --generate-name ingress-nginx/ingress-nginx --set controller.hostPort.enable=true,controller.service.type=NodePort,controller.updateStrategy.type=Recreate
+
+or also...
+
+helm install --generate-name ingress-nginx/ingress-nginx  \
+--set controller.hostPort.enable=true \
+--set controller.service.type=NodePort \
+--set controller.updateStrategy.type=Recreate
 ```
 ```
 https://kubernetes.github.io/ingress-nginx/
