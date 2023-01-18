@@ -49,7 +49,7 @@ A página web dessa vez não está sendo exibida corretamente. Verifique as conf
 
 No último procedimento, A EC2 precisou ser desligada e após isso o serviço responsável pela página web não iniciou. Encontre o problema e realize as devidas alterações para que esse serviço inicie automaticamente durante o boot da EC2.
 
-    -> systemctl enable httpd
+    -> systemctl enable httpd or chkconfig httpd on    
     
 
 # 5 - Balanceamento
