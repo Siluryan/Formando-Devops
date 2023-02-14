@@ -529,7 +529,7 @@ https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#expose
 ### - com 3 réplicas
 ### - disco de 1Gi
 ### - montado em /data
-### - sufixo dos pvc: data
+### - sufixo dos pvc: data-pvc
 
 ```yaml
 apiVersion: v1
@@ -615,7 +615,7 @@ metadata:
   labels:
     type: local
 spec:
-  storageClassName: ebs
+  storageClassName: "ebs"
   capacity:
     storage: 2Gi
   accessModes:
