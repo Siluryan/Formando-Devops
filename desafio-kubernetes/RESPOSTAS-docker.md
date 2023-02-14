@@ -4,7 +4,7 @@
         
         or
 
-         docker container run alpine sh -c "hostname" rm
+        docker container run alpine sh -c "hostname" rm
 	
 
 2. Crie um container com a imagem nginx (versão 1.22), expondo a porta 80 do container para a porta 8080 do host.
