@@ -1,4 +1,4 @@
-### 1 - com uma unica linha de comando capture somente linhas que contenham "erro" do log do pod serverweb no namespace meusite que tenha a label app: ovo.
+## 1 - com uma unica linha de comando capture somente linhas que contenham "erro" do log do pod serverweb no namespace meusite que tenha a label app: ovo.
 ```bash
   kubectl logs serverweb -n meusite -l app=ovo | grep erro
 ```
@@ -8,7 +8,7 @@ Ref:
 https://kubernetes.io/docs/reference/kubectl/cheatsheet/
 
 
-### 2 - crie o manifesto de um recurso que seja executado em todos os nós do cluster com a imagem nginx:latest com nome meu-spread, nao sobreponha ou remova qualquer taint de qualquer um dos nós.
+## 2 - crie o manifesto de um recurso que seja executado em todos os nós do cluster com a imagem nginx:latest com nome meu-spread, nao sobreponha ou remova qualquer taint de qualquer um dos nós.
 ```
 As the way to do it would be the same for nginx, I'll leave the model below for future use.
 If you want to do it specifically with nginx, as well to follow the exercise requirements,
@@ -129,7 +129,7 @@ https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/
 https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/
  
               
-### 3 - crie um deploy meu-webserver com a imagem nginx:latest e um initContainer com a imagem alpine. O initContainer deve criar um arquivo /app/index.html, tenha o conteudo "HelloGetup" e compartilhe com o container de nginx que só poderá ser inicializado se o arquivo foi criado.
+## 3 - crie um deploy meu-webserver com a imagem nginx:latest e um initContainer com a imagem alpine. O initContainer deve criar um arquivo /app/index.html, tenha o conteudo "HelloGetup" e compartilhe com o container de nginx que só poderá ser inicializado se o arquivo foi criado.
 
 ```
 During Pod startup, the kubelet delays running init containers until the networking and storage are ready.
@@ -207,7 +207,7 @@ https://kubernetes.io/docs/concepts/workloads/pods/init-containers/
 https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-initialization/
 
 
-### 4 - crie um deploy chamado meuweb com a imagem nginx:1.16 que seja executado exclusivamente no node master.
+## 4 - crie um deploy chamado meuweb com a imagem nginx:1.16 que seja executado exclusivamente no node master.
 ```
 NodeSelector is the simplest recommended form of node selection constraint.
 You can add the nodeSelector field to your Pod specification and specify the node labels
@@ -302,7 +302,7 @@ https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes/
 
 https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
 
-### 5 - com uma unica linha de comando altere a imagem desse pod meuweb para nginx:1.19 e salve o comando aqui no repositorio.
+## 5 - com uma unica linha de comando altere a imagem desse pod meuweb para nginx:1.19 e salve o comando aqui no repositorio.
 ```
 The following command specifies both the resource that will be affected and its respective container,
 so the key with the name nginx appears only by coincidence, and its real meaning is the name
@@ -317,7 +317,7 @@ Ref:
 https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#-em-image-em-
 
 
-### 6 - quais linhas de comando para instalar o ingress-nginx controller usando helm, com os seguintes parametros;
+## 6 - quais linhas de comando para instalar o ingress-nginx controller usando helm, com os seguintes parametros:
 
 ```
 helm repository : https://kubernetes.github.io/ingress-nginx
@@ -374,6 +374,8 @@ https://kubernetes.github.io/ingress-nginx/
 https://helm.sh/docs/intro/using_helm/
 
 https://helm.sh/docs/helm/helm_install/
+
+## 7
 
 ### 7.1 - criar um deploy chamado `pombo` com a imagem de `nginx:1.11.9-alpine` com 4 réplicas:
 
@@ -498,14 +500,14 @@ https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
 
 https://kubernetes.io/pt-br/docs/reference/kubectl/cheatsheet/
 
-8 - linhas de comando para; 
+## 8 - linhas de comando para:
 
-criar um deploy chamado `guardaroupa` com a imagem `redis`:
+### 8.1 - criar um deploy chamado `guardaroupa` com a imagem `redis`:
 
 ```bash
 kubectl create deployment guardaroupa --image=redis
 ```
-criar um serviço do tipo ClusterIP desse redis com as devidas portas:
+### 8.2 - criar um serviço do tipo ClusterIP desse redis com as devidas portas:
 
 ```bash
 kubectl expose deployment guardaroupa --type ClusterIP --port 6379
