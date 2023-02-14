@@ -523,6 +523,7 @@ https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#expose
 
 ## 9 - crie um recurso para aplicação stateful com os seguintes parametros:
 
+```
 nome : meusiteset
 imagem: nginx 
 namespace: backend
@@ -530,6 +531,7 @@ namespace: backend
 disco de 1Gi
 montado em /data
 sufixo dos pvc: data-pvc
+```
 
 ```yaml
 apiVersion: v1
