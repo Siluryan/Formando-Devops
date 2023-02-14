@@ -520,3 +520,117 @@ https://redis.io/docs/getting-started/
 https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#-em-deployment-em-
 
 https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#expose
+
+## 9 - crie um recurso para aplicação stateful com os seguintes parametros:
+
+### - nome : meusiteset
+### - imagem nginx 
+### - no namespace backend
+### - com 3 réplicas
+### - disco de 1Gi
+### - montado em /data
+### - sufixo dos pvc: data
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: meusiteset
+  labels:
+    app: nginx 
+spec:
+  ports:
+  - port: 80
+    name: web
+  clusterIP: None
+  selector:
+    app: nginx
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: meusiteset
+  namespace: backend
+spec:  
+  selector:
+    matchLabels:
+      app: nginx # has to match .spec.template.metadata.labels
+  serviceName: "meusiteset"
+  replicas: 3 # by default is 1
+  minReadySeconds: 10 # by default is 0
+  template:
+    metadata:
+      labels:
+        app: nginx # has to match .spec.selector.matchLabels
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: nginx
+        image: nginx
+        ports:
+        - containerPort: 80
+          name: web
+        volumeMounts:
+        - name: data-pv
+          mountPath: /data
+  volumeClaimTemplates:
+  - metadata:
+      name: data-pvc
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "ebs"
+      resources:
+        requests:
+          storage: 1Gi
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: ebs
+provisioner: kubernetes.io/aws-ebs
+parameters:
+  type: gp2
+  fsType: ext4
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: data-pvc
+  namespace: backend
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  selector:
+    matchLabels:
+      type: local      
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: data-pv
+  namespace: backend
+  labels:
+    type: local
+spec:
+  storageClassName: ebs
+  capacity:
+    storage: 2Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/data"
+  claimRef:
+    name: data-pvc
+    namespace: backend
+```
+
+Ref:
+
+https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/
+
+https://kubernetes.io/docs/tasks/configure-pod-container/configure-persistent-volume-storage/
+
+https://kubernetes.io/docs/concepts/storage/persistent-volumes/#access-modes
