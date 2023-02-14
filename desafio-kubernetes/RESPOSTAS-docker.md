@@ -1,6 +1,10 @@
 1. Execute o comando hostname em um container usando a imagem alpine. Certifique-se que o container será removido após a execução.
 
 		docker container run alpine sh -c "hostname" && docker container prune
+        
+        or
+
+         docker container run alpine sh -c "hostname" rm
 	
 
 2. Crie um container com a imagem nginx (versão 1.22), expondo a porta 80 do container para a porta 8080 do host.
