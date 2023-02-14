@@ -374,3 +374,126 @@ https://kubernetes.github.io/ingress-nginx/
 https://helm.sh/docs/intro/using_helm/
 
 https://helm.sh/docs/helm/helm_install/
+
+### 7.1 - criar um deploy chamado `pombo` com a imagem de `nginx:1.11.9-alpine` com 4 réplicas:
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pombo
+  labels:
+    app: pombo
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: pombo
+  template:
+    metadata:
+      labels:
+        app: pombo
+    spec:
+      containers:
+      - name: pombo-container
+        image: nginx:1.11.9-alpine
+        ports:
+        - containerPort: 80
+```
+### 7.2 - alterar a imagem para `nginx:1.16` e registre na annotation automaticamente:
+
+```bash
+kubectl set image deployment/pombo pombo-container=nginx:1.16 && kubectl annotate deploy pombo kubernetes.io/change-cause="version change to 1.16" 
+```
+
+### 7.3 - alterar a imagem para 1.19 e registre novamente:
+
+```bash
+kubectl set image deployment/pombo pombo-container=nginx:1.19 && kubectl annotate deploy pombo kubernetes.io/change-cause="version change to 1.19" 
+```
+
+### 7.4 - imprimir a historia de alterações desse deploy:
+
+```bash
+kubectl rollout history deployment pombo
+```
+
+### 7.5 - voltar para versão 1.11.9-alpine baseado no historico que voce registrou:
+
+```bash
+kubectl rollout undo deployment/pombo --to-revision=Nº
+```
+
+### 7.6 - criar um ingress chamado `web` para esse deploy:
+
+You must have an Ingress controller to satisfy an Ingress. Only creating an Ingress resource has no effect.
+
+Installing Helm.
+
+```bash
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+
+chmod 700 get_helm.sh
+
+./get_helm.sh
+```
+------------------------------------------------
+
+This step is required if you’re installing the chart via the helm repository.
+
+```bash
+helm repo add nginx-stable https://helm.nginx.com/stable
+
+helm repo update
+```
+
+-------------------------------------------------
+
+By default, the Ingress Controller requires a number of custom resource definitions (CRDs) installed in the cluster. The Helm client will install those CRDs. If the CRDs are not installed, the Ingress Controller pods will not become Ready.
+
+```bash
+helm install nginx-ingress-controller nginx-stable/nginx-ingress
+```
+--------------------------------------------------
+
+A minimal Ingress resource example:
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: web
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx-web
+  rules:
+  - http:
+      paths:
+      - path: /testpath
+        pathType: Prefix
+        backend:
+          service:
+            name: test
+            port:
+              number: 80
+```
+
+----------------------------------------------------
+
+```bash
+kubectl apply -f ingress-web.yaml
+```
+
+
+Ref:
+
+https://stackoverflow.com/questions/73814500/record-has-been-deprecated-then-what-is-the-alternative
+
+https://docs.vmware.com/en/VMware-vSphere/7.0/vmware-vsphere-with-tanzu/GUID-0AADC6F0-C29A-4B33-909D-6B95476EA332.html
+
+https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
+
+https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
+
+https://kubernetes.io/pt-br/docs/reference/kubectl/cheatsheet/
