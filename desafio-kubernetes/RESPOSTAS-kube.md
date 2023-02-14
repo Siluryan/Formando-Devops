@@ -497,3 +497,24 @@ https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
 https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
 
 https://kubernetes.io/pt-br/docs/reference/kubectl/cheatsheet/
+
+8 - linhas de comando para; 
+
+criar um deploy chamado `guardaroupa` com a imagem `redis`:
+
+```bash
+kubectl create deployment guardaroupa --image=redis
+```
+criar um serviço do tipo ClusterIP desse redis com as devidas portas:
+
+```bash
+kubectl expose deployment guardaroupa --type ClusterIP --port 6379
+```
+
+Ref:
+
+https://redis.io/docs/getting-started/
+
+https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#-em-deployment-em-
+
+https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#expose
