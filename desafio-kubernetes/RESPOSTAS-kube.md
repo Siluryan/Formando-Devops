@@ -636,3 +636,38 @@ https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/
 https://kubernetes.io/docs/tasks/configure-pod-container/configure-persistent-volume-storage/
 
 https://kubernetes.io/docs/concepts/storage/persistent-volumes/#access-modes
+
+## 10 - crie um recurso com 2 replicas, chamado `balaclava` com a imagem `redis`, usando as labels nos pods, replicaset e deployment, `backend=balaclava` e `minhachave=semvalor` no namespace `backend`.
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: balaclava
+  namespace: backend
+  labels:    
+    backend: balaclava
+    minhachave: semvalor
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      backend: balaclava
+      minhachave: semvalor
+  template:
+    metadata:
+      labels:
+        backend: balaclava
+        minhachave: semvalor  
+    spec:
+      containers:
+      - name: redis
+        image: redis
+        ports:
+        - containerPort: 6379
+```
+
+Ref:
+https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
+
+https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes/
