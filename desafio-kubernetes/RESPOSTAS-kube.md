@@ -665,7 +665,7 @@ kind: Deployment
 metadata:
   name: balaclava
   namespace: backend
-  labels:    
+  labels:
     backend: balaclava
     minhachave: semvalor
 spec:
@@ -681,7 +681,7 @@ spec:
         minhachave: semvalor  
     spec:
       containers:
-      - name: redis
+      - name: balaclava-container
         image: redis
         ports:
         - containerPort: 6379
