@@ -668,6 +668,7 @@ spec:
 ```
 
 Ref:
+
 https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
 
 https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes/
