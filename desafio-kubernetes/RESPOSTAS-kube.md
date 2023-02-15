@@ -375,10 +375,11 @@ https://helm.sh/docs/intro/using_helm/
 
 https://helm.sh/docs/helm/helm_install/
 
-## 7
+## 7 - quais as linhas de comando para:
 
 ### 7.1 - criar um deploy chamado `pombo` com a imagem de `nginx:1.11.9-alpine` com 4 réplicas:
 
+Example:
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -402,6 +403,11 @@ spec:
         ports:
         - containerPort: 80
 ```
+Command:
+```bash
+kubectl create deployment pombo --image=nginx:1.11.9-alpine --replicas=4
+```
+
 ### 7.2 - alterar a imagem para `nginx:1.16` e registre na annotation automaticamente:
 
 ```bash
@@ -458,47 +464,61 @@ helm install nginx-ingress-controller nginx-stable/nginx-ingress
 ```
 --------------------------------------------------
 
-A minimal Ingress resource example:
+Expose the previously created Deployment:
 
+```bash
+kubectl expose deploy/pombo --type=NodePort # LoadBalancer wont't work in Kind or Minikube deployments (https://docs.k0sproject.io/v1.23.6+k0s.2/cloud-providers/)
+```
+
+Example:
 ```yaml
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: web
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
+  name: web 
 spec:
-  ingressClassName: nginx-web
+  ingressClassName: nginx
   rules:
-  - http:
+  - host: pombodevops.com
+    http:
       paths:
-      - path: /testpath
+      - path: /
         pathType: Prefix
         backend:
           service:
-            name: test
+            name: web
             port:
               number: 80
 ```
 
-----------------------------------------------------
-
+Command:
 ```bash
-kubectl apply -f ingress-web.yaml
+ kubectl create ingress web --rule="pombodevops.com/=pombo:80"
 ```
 
-
 Ref:
+
+https://blog.knoldus.com/how-to-create-ingress-rules-in-kubernetes-using-minikube/
 
 https://stackoverflow.com/questions/73814500/record-has-been-deprecated-then-what-is-the-alternative
 
 https://docs.vmware.com/en/VMware-vSphere/7.0/vmware-vsphere-with-tanzu/GUID-0AADC6F0-C29A-4B33-909D-6B95476EA332.html
 
+https://docs.k0sproject.io/v1.23.6+k0s.2/examples/nginx-ingress/
+
+https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#-em-deployment-em-
+
+https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#-em-ingress-em-
+
+https://kubernetes.io/pt-br/docs/reference/kubectl/cheatsheet/
+
 https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
+
+https://kubernetes.io/docs/concepts/services-networking/ingress/
 
 https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
 
-https://kubernetes.io/pt-br/docs/reference/kubectl/cheatsheet/
+
 
 ## 8 - linhas de comando para:
 
