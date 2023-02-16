@@ -692,3 +692,21 @@ Ref:
 https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
 
 https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes/
+
+
+## 11 - linha de comando para listar todos os serviços do cluster do tipo `LoadBalancer` mostrando tambem `selectors`.
+
+### 11.1 - First install jq in your local machine. jq is a lightweight and flexible command-line JSON processor
+
+```bash
+sudo apt install jq
+```
+
+### 11.2 - Command:
+```bash
+kubectl get services -o json | jq -r '.items[] | select(.spec.type | "LoadBalancer").metadata.name,.spec.selector'
+```
+
+Ref:
+
+https://kubernetes.io/docs/reference/kubectl/jsonpath/
