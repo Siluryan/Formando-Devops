@@ -1,4 +1,4 @@
-## 1 - com uma unica linha de comando capture somente linhas que contenham "erro" do log do pod serverweb no namespace meusite que tenha a label app: ovo.
+### 1 - com uma unica linha de comando capture somente linhas que contenham "erro" do log do pod serverweb no namespace meusite que tenha a label app: ovo.
 ```bash
   kubectl logs serverweb -n meusite -l app=ovo | grep erro
 ```
@@ -8,7 +8,7 @@ Ref:
 https://kubernetes.io/docs/reference/kubectl/cheatsheet/
 
 
-## 2 - crie o manifesto de um recurso que seja executado em todos os nós do cluster com a imagem nginx:latest com nome meu-spread, nao sobreponha ou remova qualquer taint de qualquer um dos nós.
+### 2 - crie o manifesto de um recurso que seja executado em todos os nós do cluster com a imagem nginx:latest com nome meu-spread, nao sobreponha ou remova qualquer taint de qualquer um dos nós.
 ```
 As the way to do it would be the same for nginx, I'll leave the model below for future use.
 If you want to do it specifically with nginx, as well to follow the exercise requirements,
@@ -129,7 +129,7 @@ https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/
 https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes-using-node-affinity/
  
               
-## 3 - crie um deploy meu-webserver com a imagem nginx:latest e um initContainer com a imagem alpine. O initContainer deve criar um arquivo /app/index.html, tenha o conteudo "HelloGetup" e compartilhe com o container de nginx que só poderá ser inicializado se o arquivo foi criado.
+### 3 - crie um deploy meu-webserver com a imagem nginx:latest e um initContainer com a imagem alpine. O initContainer deve criar um arquivo /app/index.html, tenha o conteudo "HelloGetup" e compartilhe com o container de nginx que só poderá ser inicializado se o arquivo foi criado.
 
 ```
 During Pod startup, the kubelet delays running init containers until the networking and storage are ready.
@@ -207,7 +207,7 @@ https://kubernetes.io/docs/concepts/workloads/pods/init-containers/
 https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-initialization/
 
 
-## 4 - crie um deploy chamado meuweb com a imagem nginx:1.16 que seja executado exclusivamente no node master.
+### 4 - crie um deploy chamado meuweb com a imagem nginx:1.16 que seja executado exclusivamente no node master.
 ```
 NodeSelector is the simplest recommended form of node selection constraint.
 You can add the nodeSelector field to your Pod specification and specify the node labels
@@ -215,7 +215,7 @@ you want the target node to have. Kubernetes only schedules the Pod onto nodes t
 each of the labels you specify.
 ```
   
-### 4.1 Add a label to a node:
+#### 4.1 Add a label to a node:
   
 
     List the nodes in your cluster, along with their labels:
@@ -247,7 +247,7 @@ each of the labels you specify.
     In the preceding output, you can see that the worker0 node has a node=master label.
 
   
-### 4.2 Create a pod that gets scheduled to your chose:  
+#### 4.2 Create a pod that gets scheduled to your chose:  
 
     This pod configuration file describes a pod that has a node selector, node: master.
     This means that the pod will get scheduled on a node that has a node=master label.
@@ -302,7 +302,7 @@ https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes/
 
 https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
 
-## 5 - com uma unica linha de comando altere a imagem desse pod meuweb para nginx:1.19 e salve o comando aqui no repositorio.
+### 5 - com uma unica linha de comando altere a imagem desse pod meuweb para nginx:1.19 e salve o comando aqui no repositorio.
 ```
 The following command specifies both the resource that will be affected and its respective container,
 so the key with the name nginx appears only by coincidence, and its real meaning is the name
@@ -317,7 +317,7 @@ Ref:
 https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#-em-image-em-
 
 
-## 6 - quais linhas de comando para instalar o ingress-nginx controller usando helm, com os seguintes parametros:
+### 6 - quais linhas de comando para instalar o ingress-nginx controller usando helm, com os seguintes parametros:
 
 ```
 helm repository : https://kubernetes.github.io/ingress-nginx
@@ -375,9 +375,9 @@ https://helm.sh/docs/intro/using_helm/
 
 https://helm.sh/docs/helm/helm_install/
 
-## 7 - quais as linhas de comando para:
-
-### 7.1 - criar um deploy chamado `pombo` com a imagem de `nginx:1.11.9-alpine` com 4 réplicas:
+### 7 - quais as linhas de comando para:
+ 
+#### 7.1 - criar um deploy chamado `pombo` com a imagem de `nginx:1.11.9-alpine` com 4 réplicas:
 
 Example:
 ```yaml
@@ -408,31 +408,31 @@ Command:
 kubectl create deployment pombo --image=nginx:1.11.9-alpine --replicas=4
 ```
 
-### 7.2 - alterar a imagem para `nginx:1.16` e registre na annotation automaticamente:
+#### 7.2 - alterar a imagem para `nginx:1.16` e registre na annotation automaticamente:
 
 ```bash
 kubectl set image deployment/pombo pombo-container=nginx:1.16 && kubectl annotate deploy pombo kubernetes.io/change-cause="version change to 1.16" 
 ```
 
-### 7.3 - alterar a imagem para 1.19 e registre novamente:
+#### 7.3 - alterar a imagem para 1.19 e registre novamente:
 
 ```bash
 kubectl set image deployment/pombo pombo-container=nginx:1.19 && kubectl annotate deploy pombo kubernetes.io/change-cause="version change to 1.19" 
 ```
 
-### 7.4 - imprimir a historia de alterações desse deploy:
+#### 7.4 - imprimir a historia de alterações desse deploy:
 
 ```bash
 kubectl rollout history deployment pombo
 ```
 
-### 7.5 - voltar para versão 1.11.9-alpine baseado no historico que voce registrou:
+#### 7.5 - voltar para versão 1.11.9-alpine baseado no historico que voce registrou:
 
 ```bash
 kubectl rollout undo deployment/pombo --to-revision=Nº
 ```
 
-### 7.6 - criar um ingress chamado `web` para esse deploy:
+#### 7.6 - criar um ingress chamado `web` para esse deploy:
 
 You must have an Ingress controller to satisfy an Ingress. Only creating an Ingress resource has no effect.
 
@@ -520,14 +520,14 @@ https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
 
 
 
-## 8 - linhas de comando para:
-
-### 8.1 - criar um deploy chamado `guardaroupa` com a imagem `redis`:
+### 8 - linhas de comando para:
+ 
+#### 8.1 - criar um deploy chamado `guardaroupa` com a imagem `redis`:
 
 ```bash
 kubectl create deployment guardaroupa --image=redis
 ```
-### 8.2 - criar um serviço do tipo ClusterIP desse redis com as devidas portas:
+#### 8.2 - criar um serviço do tipo ClusterIP desse redis com as devidas portas:
 
 ```bash
 kubectl expose deployment guardaroupa --type ClusterIP --port 6379
@@ -541,7 +541,7 @@ https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#-em-depl
 
 https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#expose
 
-## 9 - crie um recurso para aplicação stateful com os seguintes parametros:
+### 9 - crie um recurso para aplicação stateful com os seguintes parametros:
 
 ```
 nome : meusiteset
@@ -657,7 +657,7 @@ https://kubernetes.io/docs/tasks/configure-pod-container/configure-persistent-vo
 
 https://kubernetes.io/docs/concepts/storage/persistent-volumes/#access-modes
 
-## 10 - crie um recurso com 2 replicas, chamado `balaclava` com a imagem `redis`, usando as labels nos pods, replicaset e deployment, `backend=balaclava` e `minhachave=semvalor` no namespace `backend`.
+### 10 - crie um recurso com 2 replicas, chamado `balaclava` com a imagem `redis`, usando as labels nos pods, replicaset e deployment, `backend=balaclava` e `minhachave=semvalor` no namespace `backend`.
 
 ```yaml
 apiVersion: apps/v1
@@ -694,15 +694,15 @@ https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
 https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes/
 
 
-## 11 - linha de comando para listar todos os serviços do cluster do tipo `LoadBalancer` mostrando tambem `selectors`.
-
-### 11.1 - First install jq in your local machine. jq is a lightweight and flexible command-line JSON processor
+### 11 - linha de comando para listar todos os serviços do cluster do tipo `LoadBalancer` mostrando tambem `selectors`.
+ 
+#### 11.1 - First install jq in your local machine. jq is a lightweight and flexible command-line JSON processor
 
 ```bash
 sudo apt install jq
 ```
 
-### 11.2 - Command:
+#### 11.2 - Command:
 ```bash
 kubectl get services -o json | jq -r '.items[] | select(.spec.type | "LoadBalancer").metadata.name,.spec.selector'
 ```
@@ -710,3 +710,88 @@ kubectl get services -o json | jq -r '.items[] | select(.spec.type | "LoadBalanc
 Ref:
 
 https://kubernetes.io/docs/reference/kubectl/jsonpath/
+
+### 12 - com uma linha de comando, crie uma secret chamada meusegredo no namespace segredosdesucesso com os dados, segredo=azul e com o conteudo do texto abaixo.
+
+```bash
+  # cat chave-secreta
+    aW5ncmVzcy1uZ2lueCAgIGluZ3Jlc3MtbmdpbngtY29udHJvbGxlciAgICAgICAgICAgICAgICAg
+    ICAgICAgICAgICAgTG9hZEJhbGFuY2VyICAgMTAuMjMzLjE3Ljg0ICAgIDE5Mi4xNjguMS4zNSAg
+    IDgwOjMxOTE2L1RDUCw0NDM6MzE3OTQvVENQICAgICAyM2ggICBhcHAua3ViZXJuZXRlcy5pby9j
+    b21wb25lbnQ9Y29udHJvbGxlcixhcHAua3ViZXJuZXRlcy5pby9pbnN0YW5jZT1pbmdyZXNzLW5n
+    aW54LGFwcC5rdWJlcm5ldGVzLmlvL25hbWU9aW5ncmVzcy1uZ
+```
+
+#### A Secret is an object that contains a small amount of sensitive data such as a password, a token, or a key. Such information might otherwise be put in a Pod specification or in a container image. Using a Secret means that you don't need to include confidential data in your application code.
+ 
+#### Command:
+```bash
+  kubectl create namespace segredosdesucesso && \
+  kubectl create secret -n segredosdesucesso generic meusegredo \
+  --from-literal=segredo=azul \
+  --from-file=./secret.txt 
+```
+Ref:
+
+https://kubernetes.io/docs/concepts/configuration/secret/
+
+https://kubernetes.io/docs/tasks/configmap-secret/managing-secret-using-kubectl/
+
+### 13 - qual a linha de comando para criar um configmap chamado configsite no namespace site. Deve conter uma entrada index.html que contenha seu nome.
+ 
+  #### A ConfigMap is an API object used to store non-confidential data in key-value pairs. Pods can consume ConfigMaps as environment variables, command-line arguments, or as configuration files in a volume.
+ 
+  #### A ConfigMap allows you to decouple environment-specific configuration from your container images, so that your applications are easily portable.
+ 
+#### Command:
+```bash
+kubectl create namespace site && \
+kubectl create configmap configsite -n site \
+--from-literal=index.html=seunome
+```
+Ref:
+
+https://kubernetes.io/docs/concepts/configuration/configmap/
+
+https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#-em-configmap-em-
+
+### 14 - crie um recurso chamado meudeploy, com a imagem nginx:latest, que utilize a secret criada no exercicio 11 como arquivos no diretorio /app.
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: meudeploy
+  namespace: segredosdesucesso  
+  labels:
+    app: meudeploy
+spec:
+  selector:
+    matchLabels:
+      app: meudeploy
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: meudeploy
+    spec:
+      volumes:
+      - name: secret-volume
+        secret:
+          secretName: meusegredo
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: secret-volume
+          readOnly: true
+          mountPath: "/app"      
+```
+Ref:
+
+https://kubernetes.io/docs/tasks/run-application/run-stateless-application-deployment/
+
+https://kubernetes.io/docs/concepts/configuration/secret/#using-secrets-as-files-from-a-pod
+
