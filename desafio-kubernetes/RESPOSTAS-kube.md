@@ -737,9 +737,9 @@ https://kubernetes.io/docs/concepts/configuration/secret/
 https://kubernetes.io/docs/tasks/configmap-secret/managing-secret-using-kubectl/
 
 ### 13 - qual a linha de comando para criar um configmap chamado configsite no namespace site. Deve conter uma entrada index.html que contenha seu nome.
- 
+
   #### A ConfigMap is an API object used to store non-confidential data in key-value pairs. Pods can consume ConfigMaps as environment variables, command-line arguments, or as configuration files in a volume.
- 
+
   #### A ConfigMap allows you to decouple environment-specific configuration from your container images, so that your applications are easily portable.
 
 #### Command:
