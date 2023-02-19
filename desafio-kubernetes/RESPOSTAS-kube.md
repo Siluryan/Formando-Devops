@@ -214,7 +214,7 @@ You can add the nodeSelector field to your Pod specification and specify the nod
 you want the target node to have. Kubernetes only schedules the Pod onto nodes that have
 each of the labels you specify.
 ```
-  
+ 
 #### 4.1 Add a label to a node:
   
 
@@ -376,7 +376,7 @@ https://helm.sh/docs/intro/using_helm/
 https://helm.sh/docs/helm/helm_install/
 
 ### 7 - quais as linhas de comando para:
- 
+
 #### 7.1 - criar um deploy chamado `pombo` com a imagem de `nginx:1.11.9-alpine` com 4 réplicas:
 
 Example:
@@ -521,7 +521,7 @@ https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
 
 
 ### 8 - linhas de comando para:
- 
+
 #### 8.1 - criar um deploy chamado `guardaroupa` com a imagem `redis`:
 
 ```bash
@@ -695,7 +695,7 @@ https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes/
 
 
 ### 11 - linha de comando para listar todos os serviços do cluster do tipo `LoadBalancer` mostrando tambem `selectors`.
- 
+
 #### 11.1 - First install jq in your local machine. jq is a lightweight and flexible command-line JSON processor
 
 ```bash
@@ -706,7 +706,6 @@ sudo apt install jq
 ```bash
 kubectl get services -o json | jq -r '.items[] | select(.spec.type | "LoadBalancer").metadata.name,.spec.selector'
 ```
-
 Ref:
 
 https://kubernetes.io/docs/reference/kubectl/jsonpath/
@@ -723,7 +722,7 @@ https://kubernetes.io/docs/reference/kubectl/jsonpath/
 ```
 
 #### A Secret is an object that contains a small amount of sensitive data such as a password, a token, or a key. Such information might otherwise be put in a Pod specification or in a container image. Using a Secret means that you don't need to include confidential data in your application code.
- 
+
 #### Command:
 ```bash
   kubectl create namespace segredosdesucesso && \
@@ -742,7 +741,7 @@ https://kubernetes.io/docs/tasks/configmap-secret/managing-secret-using-kubectl/
   #### A ConfigMap is an API object used to store non-confidential data in key-value pairs. Pods can consume ConfigMaps as environment variables, command-line arguments, or as configuration files in a volume.
  
   #### A ConfigMap allows you to decouple environment-specific configuration from your container images, so that your applications are easily portable.
- 
+
 #### Command:
 ```bash
 kubectl create namespace site && \
@@ -756,7 +755,6 @@ https://kubernetes.io/docs/concepts/configuration/configmap/
 https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#-em-configmap-em-
 
 ### 14 - crie um recurso chamado meudeploy, com a imagem nginx:latest, que utilize a secret criada no exercicio 11 como arquivos no diretorio /app.
-
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
