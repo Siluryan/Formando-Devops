@@ -779,3 +779,40 @@ https://kubernetes.io/docs/tasks/run-application/run-stateless-application-deplo
 
 https://kubernetes.io/docs/concepts/configuration/secret/#using-secrets-as-files-from-a-pod
 
+### 15 - crie um recurso chamado depconfigs, com a imagem nginx:latest, que utilize o configMap criado no exercicio 12 e use seu index.html como pagina principal desse recurso.
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: depconfigs
+  namespace: site
+  labels:
+    app: depconfigs
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: depsconfigs
+  template:
+    metadata:
+      labels:
+        app: depsconfigs
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - mountPath: /usr/share/nginx/html
+          name: configmap 
+      volumes:
+      - name: configmap
+        configMap:
+          name: configsite
+```
+Ref:
+
+https://kubernetes.io/docs/concepts/configuration/configmap/
+
+https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/
