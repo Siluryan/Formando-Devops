@@ -1,6 +1,6 @@
 ### 1 - com uma unica linha de comando capture somente linhas que contenham "erro" do log do pod serverweb no namespace meusite que tenha a label app: ovo.
 ```bash
-  kubectl logs serverweb -n meusite -l app=ovo | grep erro
+  kubectl logs serverweb -n meusite -l app=ovo | grep -i erro
 ```
  
 Ref:
