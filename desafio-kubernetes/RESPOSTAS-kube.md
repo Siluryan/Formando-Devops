@@ -770,6 +770,8 @@ spec:
 ```
 Ref:
 
+https://scriptcrunch.com/change-nginx-index-configmap/
+
 https://kubernetes.io/docs/concepts/configuration/configmap/
 
 https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/
