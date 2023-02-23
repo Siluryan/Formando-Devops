@@ -826,7 +826,7 @@ exponha variaveis de ambiente chamados USUARIO para username e SENHA para a pass
 kubectl create namespace cabeludo
 kubectl -n cabeludo create deployment cabelo --image=nginx:latest
 kubectl -n cabeludo create secret generic acesso --from-literal=username=pavao --from-literal=password=asabranca
-kubectl -n cabeludo set env deploy/cabelo USERNAME=$(kubectl get secret acesso -o jsonpath='{.data.username}' | base64 --decode) SENHA=$(kubectl get secret acesso -o jsonpath='{.data.password}' | base64 --decode)
+kubectl -n cabeludo set env deploy/cabelo USUARIO=$(kubectl get secret acesso -o jsonpath='{.data.username}' | base64 --decode) SENHA=$(kubectl get secret acesso -o jsonpath='{.data.password}' | base64 --decode)
 ```
 Ref:
 
