@@ -775,3 +775,63 @@ https://scriptcrunch.com/change-nginx-index-configmap/
 https://kubernetes.io/docs/concepts/configuration/configmap/
 
 https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/
+
+### 16 - crie um novo recurso chamado meudeploy-2 com a imagem nginx:1.16 , com a label chaves=secretas e que use todo conteudo da secret como variavel de ambiente criada no exercicio 12.
+
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:  
+  labels:
+    app: meudeploy-2
+    chaves: secretas
+  name: meudeploy-2
+  namespace: segredosdesucesso
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: meudeploy-2
+      chaves: secretas
+  template:
+    metadata:     
+      labels:
+        app: meudeploy-2
+        chaves: secretas
+    spec:
+      containers:
+      - image: nginx:1.16
+        name: nginx
+        envFrom:          
+        - secretRef:  
+            name: meusegredo                     
+```
+Ref:
+
+https://spacelift.io/blog/kubernetes-secrets
+
+https://kubernetes.io/docs/tasks/inject-data-application/distribute-credentials-secure/#define-container-environment-variables-using-secret-data
+
+### 17 - linhas de comando que;
+
+```bash
+crie um namespace `cabeludo`;
+um deploy chamado `cabelo` usando a imagem `nginx:latest`; 
+uma secret chamada `acesso` com as entradas `username: pavao` e `password: asabranca`;
+exponha variaveis de ambiente chamados USUARIO para username e SENHA para a password.
+```
+
+```bash
+kubectl create namespace cabeludo
+kubectl -n cabeludo create deployment cabelo --image=nginx:latest
+kubectl -n cabeludo create secret generic acesso --from-literal=username=pavao --from-literal=password=asabranca
+kubectl -n cabeludo set env deploy/cabelo USERNAME=$(kubectl get secret acesso -o jsonpath='{.data.username}' | base64 --decode) SENHA=$(kubectl get secret acesso -o jsonpath='{.data.password}' | base64 --decode)
+```
+Ref:
+
+https://kubernetes.io/docs/tasks/configmap-secret/managing-secret-using-kubectl/
+
+https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#set
+
+https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#-em-env-em-
