@@ -835,3 +835,166 @@ https://kubernetes.io/docs/tasks/configmap-secret/managing-secret-using-kubectl/
 https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#set
 
 https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#-em-env-em-
+
+### 18 - crie um deploy redis usando a imagem com o mesmo nome, no namespace cachehits e que tenha o ponto de montagem /data/redis de um volume chamado app-cache que NÂO deverá ser persistente.
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: redis
+  name: redis
+  namespace: cachehits
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+      - image: redis
+        name: redis
+        volumeMounts:
+        - mountPath: /data/redis
+          name: app-cache
+      volumes:
+      - name: app-cache
+        emptyDir:
+          sizeLimit: 250Mi
+```
+ Ref:
+
+ https://kubernetes.io/docs/concepts/storage/volumes/#emptydir
+
+### 19 - com uma linha de comando escale um deploy chamado basico no namespace azul para 10 replicas.
+```bash
+kubectl -n azul scale --replicas=10 deploy/basico
+```
+Ref:
+
+https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#scale
+
+### 20 - com uma linha de comando, crie um autoscale de cpu com 90% de no minimo 2 e maximo de 5 pods para o deploy site no namespace frontend.
+```bash
+kubectl -n frontend autoscale deploy/site --min=2 --max=5 --cpu-percent=90
+```
+
+Ref:
+
+https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#autoscale
+
+### 21 - com uma linha de comando, descubra o conteudo da secret piadas no namespace meussegredos com a entrada segredos.
+```bash
+kubectl -n meussegredos get secret piadas -o jsonpath='{.data.segredos}' | base64 -d
+```
+Ref:
+
+https://kubernetes.io/docs/concepts/configuration/secret/
+
+### 22 - marque o node k8s-worker1 do cluster para que nao aceite nenhum novo pod.
+
+```bash
+kubectl taint nodes k8s-worker1 key1=value1:NoSchedule
+
+or...
+
+kubectl cordon k8s-worker1
+```
+Ref:
+
+https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/
+
+https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#cordon
+
+### 23 - esvazie totalmente e de uma unica vez esse mesmo nó com uma linha de comando.
+
+kubectl drain k8s-worker1 --force
+
+Ref:
+
+https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#drain
+
+### 24 - qual a maneira de garantir a criaçao de um pod (sem usar o kubectl ou api do k8s) em um nó especifico.
+
+#### 24.1 - Manifests are standard Pod definitions in JSON or YAML format in a specific directory. Use the staticPodPath: <the directory> field in the kubelet configuration file, which periodically scans the directory and creates/deletes static Pods as YAML/JSON files appear/disappear there. Note that the kubelet will ignore files starting with dots when scanning the specified directory.
+
+#### 24.1.1 - Choose a node where you want to run the static Pod. In this example, it's my-node1.
+
+```bash
+ssh my-node1
+```
+
+#### 24.1.2 - Choose a directory, say /etc/kubernetes/manifests and place a web server Pod definition there, for example /etc/kubernetes/manifests/static-web.yaml:
+
+```bash
+mkdir -p /etc/kubernetes/manifests/
+```
+```bash
+cat <<EOF >/etc/kubernetes/manifests/static-web.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: static-web
+  labels:
+    role: myrole
+spec:
+  containers:
+    - name: web
+      image: nginx
+      ports:
+        - name: web
+          containerPort: 80
+          protocol: TCP
+EOF
+```
+
+#### 24.1.3 - Configure your kubelet on the node to use this directory by running it with --pod-manifest-path=/etc/kubernetes/manifests/ argument.
+
+```bash
+KUBELET_ARGS="--cluster-dns=10.254.0.10 --cluster-domain=kube.local --pod-manifest-path=/etc/kubernetes/manifests/"
+```
+
+#### 24.1.4 - Restart the kubelet.
+
+```bash
+systemctl restart kubelet
+```
+
+#### 24.2 - Kubelet periodically downloads a file specified by --manifest-url=<URL> argument and interprets it as a JSON/YAML file that contains Pod definitions. Similar to how filesystem-hosted manifests work, the kubelet refetches the manifest on a schedule. If there are changes to the list of static Pods, the kubelet applies them.
+
+#### 24.2.1 - Create a YAML file and store it on a web server so that you can pass the URL of that file to the kubelet.
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: static-web
+  labels:
+    role: myrole
+spec:
+  containers:
+    - name: web
+      image: nginx
+      ports:
+        - name: web
+          containerPort: 80
+          protocol: TCP
+
+```
+#### 24.2.2 - Configure the kubelet on your selected node to use this web manifest by running it with --manifest-url=<manifest-url>.
+```bash
+KUBELET_ARGS="--cluster-dns=10.254.0.10 --cluster-domain=kube.local --manifest-url=<manifest-url>"
+```
+#### 24.2.3 - Restart the kubelet
+
+```bash
+systemctl restart kubelet
+```
+
+Ref:
+
+https://kubernetes.io/docs/tasks/configure-pod-container/static-pod/
