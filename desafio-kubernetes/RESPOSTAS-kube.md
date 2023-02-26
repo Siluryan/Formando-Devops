@@ -912,9 +912,9 @@ https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/
 https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#cordon
 
 ### 23 - esvazie totalmente e de uma unica vez esse mesmo nó com uma linha de comando.
-
+```bash
 kubectl drain k8s-worker1 --force
-
+```
 Ref:
 
 https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#drain
