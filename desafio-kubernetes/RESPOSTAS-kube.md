@@ -1080,3 +1080,62 @@ https://kubernetes.io/docs/reference/access-authn-authz/authentication/
 https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/
 
 https://kubernetes.io/docs/reference/access-authn-authz/rbac/
+
+### 26 - criar a key e certificado cliente para uma usuaria chamada jane e que tenha permissao somente de listar pods no namespace frontend. liste os comandos utilizados.
+
+#### 26.1 - Create private key:
+```bash
+openssl genrsa -out jane.key 2048
+openssl req -new -key jane.key -out jane.csr
+```
+#### 26.2 - Command to get base64 encoded value of the CSR request parameter in file content:
+```bash
+cat jane.csr | base64 | tr -d "\n"
+```
+#### 26.3 - Create CertificateSigningRequest:
+```bash
+cat <<EOF | kubectl apply -f -
+apiVersion: certificates.k8s.io/v1
+kind: CertificateSigningRequest
+metadata:
+  name: jane
+spec:
+  request: PUT HERE THE ENCODED VALUE FROM PREVIOUS STEP, WITHOUT QUOTES
+  signerName: kubernetes.io/kube-apiserver-client
+  expirationSeconds: 86400  # one day
+  usages:
+  - client auth
+EOF
+```
+#### 26.4 - Approve the CSR:
+```bash
+kubectl certificate approve jane
+```
+#### 26.5 - Export the issued certificate from the CertificateSigningRequest (the certificate value is in Base64-encoded format under status.certificate).
+```bash
+kubectl get csr jane -o jsonpath='{.status.certificate}'| base64 -d > jane.crt
+```
+#### 26.6 - Create Role and RoleBinding:
+```bash
+kubectl -n frontend create role jane-role --verb=list --resource=pods --namespace=frontend
+kubectl -n frontend create rolebinding jane-rolebinding --role=jane-role --user=jane
+```
+
+#### 26.7 - Add new credentials to kubeconfig:
+```bash
+kubectl config set-credentials jane --client-key=jane.key --client-certificate=jane.crt --embed-certs=true
+```
+#### 26.8 - Add the context:
+```bash
+kubectl config set-context jane --cluster=kubernetes --user=jane
+```
+Ref:
+
+https://kubernetes.io/docs/reference/access-authn-authz/certificate-signing-requests/
+
+https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#-em-role-em-
+
+
+
+
+
