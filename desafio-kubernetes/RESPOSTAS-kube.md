@@ -998,3 +998,85 @@ systemctl restart kubelet
 Ref:
 
 https://kubernetes.io/docs/tasks/configure-pod-container/static-pod/
+
+### 25 - criar uma serviceaccount userx no namespace developer. essa serviceaccount só pode ter permissao total sobre pods (inclusive logs) e deployments no namespace developer. descreva o processo para validar o acesso ao namespace do jeito que achar melhor.
+
+A Role always sets permissions within a particular namespace; when you create a Role, you have to specify the namespace it belongs in.
+
+Pods is the namespaced resource for Pod resources, and log is a subresource of pods. To represent this in an RBAC role, use a slash (/) to delimit the resource and subresource.
+
+You can still manually create a service account token Secret; for example, if you need a token that never expires. However, using the TokenRequest subresource to obtain a token to access the API is recommended instead.
+
+If you want to obtain an API token for a ServiceAccount, you create a new Secret with a special annotation, kubernetes.io/service-account.name.
+
+A RoleBinding or ClusterRoleBinding binds a role to subjects. Subjects can be groups, users or ServiceAccounts.
+
+If you are not sure if your (or another) user is allowed to do a certain action, you can verify that with the kubectl auth can-i command.
+
+```yaml
+# Namespace
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: developer
+---
+# serviceAccount
+apiVersion: v1
+kind: ServiceAccount
+metadata:  
+  name: userx
+  namespace: developer
+---
+# token
+apiVersion: v1
+kind: Secret
+metadata:
+  name: userx-token
+  namespace: developer
+  annotations:
+    kubernetes.io/service-account.name: userx
+type: kubernetes.io/service-account-token
+---
+# role
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: developer
+  name: all-requests-dev-ns
+rules:
+- apiGroups: [""] 
+  resources: ["pods", "pods/log","deployments"]
+  verbs: ["create", "get", "watch", "list", "update", "patch", "delete", "deletecollection"]
+---
+# roleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  namespace: developer
+  name: bind-userx-all-req  
+subjects:
+- kind: User
+  name: userx # Name is case sensitive
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: all-requests-dev-ns
+  apiGroup: rbac.authorization.k8s.io
+```
+Command to verify userx can deploy in the developer namespace:
+```bash
+kubectl auth can-i create deployments \
+--namespace develper \
+--as userx
+```
+Ref:
+
+https://docs.giantswarm.io/getting-started/rbac-and-psp/
+
+https://kubernetes.io/docs/reference/access-authn-authz/authorization/
+
+https://kubernetes.io/docs/reference/access-authn-authz/authentication/
+
+https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/
+
+https://kubernetes.io/docs/reference/access-authn-authz/rbac/
