@@ -1066,7 +1066,7 @@ roleRef:
 Command to verify userx can deploy in the developer namespace:
 ```bash
 kubectl auth can-i create deployments \
---namespace develper \
+--namespace developer \
 --as userx
 ```
 Ref:
