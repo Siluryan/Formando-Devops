@@ -1135,7 +1135,28 @@ https://kubernetes.io/docs/reference/access-authn-authz/certificate-signing-requ
 
 https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#-em-role-em-
 
+### 27 - qual o `kubectl get` que traz o status do scheduler, controller-manager e etcd ao mesmo tempo
 
+```bash
+kubectl get componentstatuses # deprecated
 
+or...
 
+# local host
+curl -k https://localhost:6443/livez?verbose
 
+# remote host with authentication
+kubectl get --raw='/readyz?verbose'
+```
+
+Ref:
+
+https://sysnet4admin.gitbook.io/k8s/arch/components/kubectl-get-componentstatuses
+
+https://stackoverflow.com/questions/73407661/componentstatus-is-deprecated-what-to-use-then
+
+https://kubernetes.io/pt-br/docs/concepts/overview/components/
+
+https://kubernetes.io/docs/reference/kubernetes-api/cluster-resources/component-status-v1/
+
+https://kubernetes.io/docs/reference/using-api/health-checks/
