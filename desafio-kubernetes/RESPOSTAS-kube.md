@@ -1044,7 +1044,7 @@ metadata:
   namespace: developer
   name: all-requests-dev-ns
 rules:
-- apiGroups: [""] 
+- apiGroups: ["","apps"] 
   resources: ["pods", "pods/log","deployments"]
   verbs: ["create", "get", "watch", "list", "update", "patch", "delete", "deletecollection"]
 ---
