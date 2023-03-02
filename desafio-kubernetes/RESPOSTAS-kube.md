@@ -1117,7 +1117,7 @@ kubectl get csr jane -o jsonpath='{.status.certificate}'| base64 -d > jane.crt
 ```
 #### 26.6 - Create Role and RoleBinding:
 ```bash
-kubectl -n frontend create role jane-role --verb=list --resource=pods --namespace=frontend
+kubectl -n frontend create role jane-role --verb=list --resource=pods
 kubectl -n frontend create rolebinding jane-rolebinding --role=jane-role --user=jane
 ```
 
