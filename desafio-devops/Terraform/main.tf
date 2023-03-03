@@ -141,20 +141,3 @@ data "local_file" "kube_config" {
   filename   = "${var.cluster_name}-config"
   depends_on = [time_sleep.wait_cluster]
 }
-
-resource "kind_cluster" "this" {
-  name            = var.cluster_name
-  node_image      = "${var.node_image}:v${var.kubernetes_version}"
-  wait_for_ready  = true
-  kubeconfig_path = null
-  kind_config {
-    kind        = "Cluster"
-    api_version = "kind.x-k8s.io/v1alpha4"       
-    containerd_config_patches = concat(var.containerd_config_patches, var.enable_registry == false ? [] : [
-      <<-TOML
-      [plugins."io.containerd.grpc.v1.cri".registry.mirrors."localhost:${var.registry_port}"]
-          endpoint = ["http://${var.cluster_name}-registry:5000"]
-      TOML
-    ])
-  }
-}
